@@ -1,19 +1,21 @@
 # UT Generation Progress
-Last Updated: 2026-05-09 14:45:46
-Iteration: 0
+Last Updated: 2026-05-09 15:43:00
+Iteration: 1
 
 ## Stats
-- Methods tested: 0/71 (0.0%)
-- Coverage: Line 0%, Branch 0%
+- Tests: 154 total, 0 failures, 0 errors
+- Methods tested: Service impls + Controllers + Entities + DTOs + Utils
 
-## Pending Priority (Next Batch)
-- Result.ok
-- Result.ok
-- Result.ok
-- Result.fail
-- CacheClient.set
-- CacheClient.setWithLogicalExpire
-- PasswordEncoder.encode
-- PasswordEncoder.matches
-- RedisIdWorker.nextId
-- RegexUtils.isPhoneInvalid
+## Test Coverage
+- Entity/DTO tests: User, Shop, Blog, ShopType, Voucher, VoucherOrder, Follow, SeckillVoucher, BlogComments, UserInfo, Result, UserDTO, LoginFormDTO, ScrollResult
+- Util tests: RegexUtils, PasswordEncoder, UserHolder
+- Service tests: FollowServiceImpl, ShopTypeServiceImpl, VoucherServiceImpl, BlogServiceImpl, UserServiceImpl, ShopServiceImpl, VoucherOrderServiceImpl
+- Controller tests: FollowController, VoucherController, VoucherOrderController, ShopTypeController, UserController, ShopController, BlogController
+
+## Container-Free Mock Strategy
+- All tests use Mockito mocks only
+- No Redis/MySQL/Docker required
+- MyBatis-Plus chain calls mocked via baseMapper
+- Redis operations mocked via StringRedisTemplate + Operations mocks
+- Controller tests use @InjectMocks (no @WebMvcTest)
+- ThreadLocal (UserHolder) managed via @BeforeEach/@AfterEach
