@@ -1,21 +1,41 @@
 # UT Generation Progress
-Last Updated: 2026-05-09 15:43:00
-Iteration: 1
+Last Updated: 2026-05-09 15:49:00
+Iteration: 2
 
 ## Stats
-- Tests: 154 total, 0 failures, 0 errors
-- Methods tested: Service impls + Controllers + Entities + DTOs + Utils
+- Tests: 162 total, 0 failures, 0 errors
+- Methods tested: Service impls + Controllers + Entities + DTOs + Utils + Config
 
-## Test Coverage
-- Entity/DTO tests: User, Shop, Blog, ShopType, Voucher, VoucherOrder, Follow, SeckillVoucher, BlogComments, UserInfo, Result, UserDTO, LoginFormDTO, ScrollResult
-- Util tests: RegexUtils, PasswordEncoder, UserHolder
-- Service tests: FollowServiceImpl, ShopTypeServiceImpl, VoucherServiceImpl, BlogServiceImpl, UserServiceImpl, ShopServiceImpl, VoucherOrderServiceImpl
-- Controller tests: FollowController, VoucherController, VoucherOrderController, ShopTypeController, UserController, ShopController, BlogController
+## Test Coverage (JaCoCo)
+Run: mvn test jacoco:report
 
-## Container-Free Mock Strategy
-- All tests use Mockito mocks only
-- No Redis/MySQL/Docker required
+## Completed Test Files (31 files)
+
+### Entity/DTO (14 files, 59 tests)
+- ResultTest, UserDTOTest, LoginFormDTOTest, ScrollResultTest
+- UserTest, ShopTest, BlogTest, ShopTypeTest, VoucherTest
+- VoucherOrderTest, FollowTest, SeckillVoucherTest, BlogCommentsTest, UserInfoTest
+
+### Utils (6 files, 34 tests)
+- RegexUtilsTest (9), PasswordEncoderTest (8), UserHolderTest (4)
+- CacheClientTest (2), RedisIdWorkerTest (2), SimpleRedisLockTest (3)
+
+### Config (1 file, 1 test)
+- WebExceptionAdviceTest (1)
+
+### Service Impls (7 files, 40 tests)
+- FollowServiceImplTest (5), ShopTypeServiceImplTest (3), VoucherServiceImplTest (3)
+- BlogServiceImplTest (9), UserServiceImplTest (9), ShopServiceImplTest (7)
+- VoucherOrderServiceImplTest (4)
+
+### Controllers (7 files, 30 tests)
+- FollowControllerTest (4), VoucherControllerTest (3), VoucherOrderControllerTest (1)
+- ShopTypeControllerTest (1), UserControllerTest (10), ShopControllerTest (5)
+- BlogControllerTest (6)
+
+## Container-Free Mock Strategy Proven
+- All 162 tests run without Redis/MySQL/Docker
 - MyBatis-Plus chain calls mocked via baseMapper
 - Redis operations mocked via StringRedisTemplate + Operations mocks
-- Controller tests use @InjectMocks (no @WebMvcTest)
+- Controller tests use @InjectMocks (no Spring context)
 - ThreadLocal (UserHolder) managed via @BeforeEach/@AfterEach
