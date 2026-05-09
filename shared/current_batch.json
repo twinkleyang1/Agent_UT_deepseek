@@ -1,0 +1,141 @@
+{
+  "batch": [
+    {
+      "class_name": "Result",
+      "package": "com.hmdp.dto",
+      "class_path": "src/main/java/com/hmdp/dto/Result.java",
+      "test_file": "src/test/java/com/hmdp/dto/ResultTest.java",
+      "type": "entity",
+      "priority": 1,
+      "method_name": "ok",
+      "signature": "public Result ok(Object data)",
+      "test_method": "shouldReturnResultWhenOk",
+      "complexity": "simple"
+    },
+    {
+      "class_name": "CacheClient",
+      "package": "com.hmdp.utils",
+      "class_path": "src/main/java/com/hmdp/utils/CacheClient.java",
+      "test_file": "src/test/java/com/hmdp/utils/CacheClientTest.java",
+      "type": "utils",
+      "priority": 2,
+      "method_name": "setWithLogicalExpire",
+      "signature": "public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)",
+      "test_method": "shouldSetWithLogicalExpireSuccessfully",
+      "complexity": "simple"
+    },
+    {
+      "class_name": "PasswordEncoder",
+      "package": "com.hmdp.utils",
+      "class_path": "src/main/java/com/hmdp/utils/PasswordEncoder.java",
+      "test_file": "src/test/java/com/hmdp/utils/PasswordEncoderTest.java",
+      "type": "utils",
+      "priority": 2,
+      "method_name": "matches",
+      "signature": "public Boolean matches(String encodedPassword, String rawPassword)",
+      "test_method": "shouldMatchesSuccessfully",
+      "complexity": "medium"
+    },
+    {
+      "class_name": "RegexUtils",
+      "package": "com.hmdp.utils",
+      "class_path": "src/main/java/com/hmdp/utils/RegexUtils.java",
+      "test_file": "src/test/java/com/hmdp/utils/RegexUtilsTest.java",
+      "type": "utils",
+      "priority": 2,
+      "method_name": "isEmailInvalid",
+      "signature": "public boolean isEmailInvalid(String email)",
+      "test_method": "shouldIsEmailInvalidSuccessfully",
+      "complexity": "simple"
+    },
+    {
+      "class_name": "SimpleRedisLock",
+      "package": "com.hmdp.utils",
+      "class_path": "src/main/java/com/hmdp/utils/SimpleRedisLock.java",
+      "test_file": "src/test/java/com/hmdp/utils/SimpleRedisLockTest.java",
+      "type": "utils",
+      "priority": 2,
+      "method_name": "tryLock",
+      "signature": "public boolean tryLock(long timeoutSec)",
+      "test_method": "shouldTryLockSuccessfully",
+      "complexity": "simple"
+    }
+  ],
+  "prompts": [
+    {
+      "task": {
+        "class_name": "Result",
+        "package": "com.hmdp.dto",
+        "class_path": "src/main/java/com/hmdp/dto/Result.java",
+        "test_file": "src/test/java/com/hmdp/dto/ResultTest.java",
+        "type": "entity",
+        "priority": 1,
+        "method_name": "ok",
+        "signature": "public Result ok(Object data)",
+        "test_method": "shouldReturnResultWhenOk",
+        "complexity": "simple"
+      },
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.dto.Result\n- Method: ok\n- Signature: public Result ok(Object data)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/dto/Result.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/dto/ResultTest.java\n- Test method name: shouldReturnResultWhenOk\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/dto/Result.java` and understand the `ok` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=ResultTest#shouldReturnResultWhenOk\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"Result\",\n  \"method_name\": \"ok\",\n  \"test_method\": \"shouldReturnResultWhenOk\",\n  \"test_file\": \"src/test/java/com/hmdp/dto/ResultTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+    },
+    {
+      "task": {
+        "class_name": "CacheClient",
+        "package": "com.hmdp.utils",
+        "class_path": "src/main/java/com/hmdp/utils/CacheClient.java",
+        "test_file": "src/test/java/com/hmdp/utils/CacheClientTest.java",
+        "type": "utils",
+        "priority": 2,
+        "method_name": "setWithLogicalExpire",
+        "signature": "public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)",
+        "test_method": "shouldSetWithLogicalExpireSuccessfully",
+        "complexity": "simple"
+      },
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.CacheClient\n- Method: setWithLogicalExpire\n- Signature: public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/CacheClient.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/CacheClientTest.java\n- Test method name: shouldSetWithLogicalExpireSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/CacheClient.java` and understand the `setWithLogicalExpire` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=CacheClientTest#shouldSetWithLogicalExpireSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"CacheClient\",\n  \"method_name\": \"setWithLogicalExpire\",\n  \"test_method\": \"shouldSetWithLogicalExpireSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/CacheClientTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+    },
+    {
+      "task": {
+        "class_name": "PasswordEncoder",
+        "package": "com.hmdp.utils",
+        "class_path": "src/main/java/com/hmdp/utils/PasswordEncoder.java",
+        "test_file": "src/test/java/com/hmdp/utils/PasswordEncoderTest.java",
+        "type": "utils",
+        "priority": 2,
+        "method_name": "matches",
+        "signature": "public Boolean matches(String encodedPassword, String rawPassword)",
+        "test_method": "shouldMatchesSuccessfully",
+        "complexity": "medium"
+      },
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.PasswordEncoder\n- Method: matches\n- Signature: public Boolean matches(String encodedPassword, String rawPassword)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/PasswordEncoder.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/PasswordEncoderTest.java\n- Test method name: shouldMatchesSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/PasswordEncoder.java` and understand the `matches` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=PasswordEncoderTest#shouldMatchesSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"PasswordEncoder\",\n  \"method_name\": \"matches\",\n  \"test_method\": \"shouldMatchesSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/PasswordEncoderTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+    },
+    {
+      "task": {
+        "class_name": "RegexUtils",
+        "package": "com.hmdp.utils",
+        "class_path": "src/main/java/com/hmdp/utils/RegexUtils.java",
+        "test_file": "src/test/java/com/hmdp/utils/RegexUtilsTest.java",
+        "type": "utils",
+        "priority": 2,
+        "method_name": "isEmailInvalid",
+        "signature": "public boolean isEmailInvalid(String email)",
+        "test_method": "shouldIsEmailInvalidSuccessfully",
+        "complexity": "simple"
+      },
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.RegexUtils\n- Method: isEmailInvalid\n- Signature: public boolean isEmailInvalid(String email)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/RegexUtils.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/RegexUtilsTest.java\n- Test method name: shouldIsEmailInvalidSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/RegexUtils.java` and understand the `isEmailInvalid` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=RegexUtilsTest#shouldIsEmailInvalidSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"RegexUtils\",\n  \"method_name\": \"isEmailInvalid\",\n  \"test_method\": \"shouldIsEmailInvalidSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/RegexUtilsTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+    },
+    {
+      "task": {
+        "class_name": "SimpleRedisLock",
+        "package": "com.hmdp.utils",
+        "class_path": "src/main/java/com/hmdp/utils/SimpleRedisLock.java",
+        "test_file": "src/test/java/com/hmdp/utils/SimpleRedisLockTest.java",
+        "type": "utils",
+        "priority": 2,
+        "method_name": "tryLock",
+        "signature": "public boolean tryLock(long timeoutSec)",
+        "test_method": "shouldTryLockSuccessfully",
+        "complexity": "simple"
+      },
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.SimpleRedisLock\n- Method: tryLock\n- Signature: public boolean tryLock(long timeoutSec)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/SimpleRedisLock.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/SimpleRedisLockTest.java\n- Test method name: shouldTryLockSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/SimpleRedisLock.java` and understand the `tryLock` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=SimpleRedisLockTest#shouldTryLockSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"SimpleRedisLock\",\n  \"method_name\": \"tryLock\",\n  \"test_method\": \"shouldTryLockSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/SimpleRedisLockTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+    }
+  ]
+}

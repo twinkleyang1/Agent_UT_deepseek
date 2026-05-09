@@ -1,0 +1,19 @@
+# UT Generation Progress
+Last Updated: 2026-05-09 14:45:46
+Iteration: 0
+
+## Stats
+- Methods tested: 0/71 (0.0%)
+- Coverage: Line 0%, Branch 0%
+
+## Pending Priority (Next Batch)
+- Result.ok
+- Result.ok
+- Result.ok
+- Result.fail
+- CacheClient.set
+- CacheClient.setWithLogicalExpire
+- PasswordEncoder.encode
+- PasswordEncoder.matches
+- RedisIdWorker.nextId
+- RegexUtils.isPhoneInvalid

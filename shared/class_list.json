@@ -1,0 +1,1103 @@
+{
+  "project_path": "/home/twinkle/app/808/Agent_UT_deepseek/dianping",
+  "scan_date": "2026-05-09 15:00",
+  "classes": [
+    {
+      "name": "Blog",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/Blog.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/BlogTest.java",
+      "methods": []
+    },
+    {
+      "name": "BlogComments",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/BlogComments.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/BlogCommentsTest.java",
+      "methods": []
+    },
+    {
+      "name": "Follow",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/Follow.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/FollowTest.java",
+      "methods": []
+    },
+    {
+      "name": "LoginFormDTO",
+      "package": "com.hmdp.dto",
+      "path": "src/main/java/com/hmdp/dto/LoginFormDTO.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/dto/LoginFormDTOTest.java",
+      "methods": []
+    },
+    {
+      "name": "Result",
+      "package": "com.hmdp.dto",
+      "path": "src/main/java/com/hmdp/dto/Result.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/dto/ResultTest.java",
+      "methods": [
+        {
+          "name": "ok",
+          "signature": "public Result ok()",
+          "test_status": "pass",
+          "test_method": "shouldReturnResultWhenOk",
+          "complexity": "simple"
+        },
+        {
+          "name": "ok",
+          "signature": "public Result ok(Object data)",
+          "test_status": "pass",
+          "test_method": "shouldReturnResultWhenOk",
+          "complexity": "simple"
+        },
+        {
+          "name": "ok",
+          "signature": "public Result ok(List<?> data, Long total)",
+          "test_status": "pass",
+          "test_method": "shouldReturnResultWhenOk",
+          "complexity": "simple"
+        },
+        {
+          "name": "fail",
+          "signature": "public Result fail(String errorMsg)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenFail",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "ScrollResult",
+      "package": "com.hmdp.dto",
+      "path": "src/main/java/com/hmdp/dto/ScrollResult.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/dto/ScrollResultTest.java",
+      "methods": []
+    },
+    {
+      "name": "SeckillVoucher",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/SeckillVoucher.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/SeckillVoucherTest.java",
+      "methods": []
+    },
+    {
+      "name": "Shop",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/Shop.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/ShopTest.java",
+      "methods": []
+    },
+    {
+      "name": "ShopType",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/ShopType.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/ShopTypeTest.java",
+      "methods": []
+    },
+    {
+      "name": "User",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/User.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/UserTest.java",
+      "methods": []
+    },
+    {
+      "name": "UserDTO",
+      "package": "com.hmdp.dto",
+      "path": "src/main/java/com/hmdp/dto/UserDTO.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/dto/UserDTOTest.java",
+      "methods": []
+    },
+    {
+      "name": "UserInfo",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/UserInfo.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/UserInfoTest.java",
+      "methods": []
+    },
+    {
+      "name": "Voucher",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/Voucher.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/VoucherTest.java",
+      "methods": []
+    },
+    {
+      "name": "VoucherOrder",
+      "package": "com.hmdp.entity",
+      "path": "src/main/java/com/hmdp/entity/VoucherOrder.java",
+      "type": "entity",
+      "priority": 1,
+      "test_file": "src/test/java/com/hmdp/entity/VoucherOrderTest.java",
+      "methods": []
+    },
+    {
+      "name": "CacheClient",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/CacheClient.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/CacheClientTest.java",
+      "methods": [
+        {
+          "name": "set",
+          "signature": "public void set(String key, Object value, Long time, TimeUnit unit)",
+          "test_status": "pending",
+          "test_method": "shouldSetSuccessfully",
+          "complexity": "simple"
+        },
+        {
+          "name": "setWithLogicalExpire",
+          "signature": "public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)",
+          "test_status": "pending",
+          "test_method": "shouldSetWithLogicalExpireSuccessfully",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "ILock",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/ILock.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/ILockTest.java",
+      "methods": []
+    },
+    {
+      "name": "PasswordEncoder",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/PasswordEncoder.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/PasswordEncoderTest.java",
+      "methods": [
+        {
+          "name": "encode",
+          "signature": "public String encode(String password)",
+          "test_status": "pass",
+          "test_method": "shouldReturnStringWhenEncode",
+          "complexity": "simple"
+        },
+        {
+          "name": "matches",
+          "signature": "public Boolean matches(String encodedPassword, String rawPassword)",
+          "test_status": "pass",
+          "test_method": "shouldMatchesSuccessfully",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "RedisData",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/RedisData.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/RedisDataTest.java",
+      "methods": []
+    },
+    {
+      "name": "RedisIdWorker",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/RedisIdWorker.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/RedisIdWorkerTest.java",
+      "methods": [
+        {
+          "name": "nextId",
+          "signature": "public Long nextId(String keyPrefix)",
+          "test_status": "pending",
+          "test_method": "shouldReturnLongWhenNextId",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "RegexPatterns",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/RegexPatterns.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/RegexPatternsTest.java",
+      "methods": []
+    },
+    {
+      "name": "RegexUtils",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/RegexUtils.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/RegexUtilsTest.java",
+      "methods": [
+        {
+          "name": "isPhoneInvalid",
+          "signature": "public boolean isPhoneInvalid(String phone)",
+          "test_status": "pass",
+          "test_method": "shouldIsPhoneInvalidSuccessfully",
+          "complexity": "simple"
+        },
+        {
+          "name": "isEmailInvalid",
+          "signature": "public boolean isEmailInvalid(String email)",
+          "test_status": "pass",
+          "test_method": "shouldIsEmailInvalidSuccessfully",
+          "complexity": "simple"
+        },
+        {
+          "name": "isCodeInvalid",
+          "signature": "public boolean isCodeInvalid(String code)",
+          "test_status": "pass",
+          "test_method": "shouldIsCodeInvalidSuccessfully",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "SimpleRedisLock",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/SimpleRedisLock.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/SimpleRedisLockTest.java",
+      "methods": [
+        {
+          "name": "tryLock",
+          "signature": "public boolean tryLock(long timeoutSec)",
+          "test_status": "pending",
+          "test_method": "shouldTryLockSuccessfully",
+          "complexity": "simple"
+        },
+        {
+          "name": "delLock",
+          "signature": "public void delLock()",
+          "test_status": "pending",
+          "test_method": "shouldDelLockSuccessfully",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "UserHolder",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/UserHolder.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/UserHolderTest.java",
+      "methods": [
+        {
+          "name": "saveUser",
+          "signature": "public void saveUser(UserDTO user)",
+          "test_status": "pass",
+          "test_method": "shouldSaveUserSuccessfully",
+          "complexity": "simple"
+        },
+        {
+          "name": "getUser",
+          "signature": "public UserDTO getUser()",
+          "test_status": "pass",
+          "test_method": "shouldReturnUserdtoWhenGetUser",
+          "complexity": "simple"
+        },
+        {
+          "name": "removeUser",
+          "signature": "public void removeUser()",
+          "test_status": "pass",
+          "test_method": "shouldRemoveUserSuccessfully",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "BlogCommentsController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/BlogCommentsController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/BlogCommentsControllerTest.java",
+      "methods": []
+    },
+    {
+      "name": "BlogController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/BlogController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/BlogControllerTest.java",
+      "methods": [
+        {
+          "name": "saveBlog",
+          "signature": "public Result saveBlog(@RequestBody Blog blog)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSaveBlog",
+          "complexity": "simple"
+        },
+        {
+          "name": "likeBlog",
+          "signature": "public Result likeBlog(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenLikeBlog",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryMyBlog",
+          "signature": "public Result queryMyBlog(@RequestParam(value = \"current\", defaultValue = \"1\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryMyBlog",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryHotBlog",
+          "signature": "public Result queryHotBlog(@RequestParam(value = \"current\", defaultValue = \"1\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryHotBlog",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryById",
+          "signature": "public Result queryById(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryById",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryBlogLikes",
+          "signature": "public Result queryBlogLikes(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryBlogLikes",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "FollowController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/FollowController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/FollowControllerTest.java",
+      "methods": [
+        {
+          "name": "follow",
+          "signature": "public Result follow(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenFollow",
+          "complexity": "simple"
+        },
+        {
+          "name": "follow",
+          "signature": "public Result follow(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenFollow",
+          "complexity": "simple"
+        },
+        {
+          "name": "followCommons",
+          "signature": "public Result followCommons(@PathVariable Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenFollowCommons",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "ShopController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/ShopController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/ShopControllerTest.java",
+      "methods": [
+        {
+          "name": "queryShopById",
+          "signature": "public Result queryShopById(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryShopById",
+          "complexity": "simple"
+        },
+        {
+          "name": "saveShop",
+          "signature": "public Result saveShop(@RequestBody Shop shop)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSaveShop",
+          "complexity": "simple"
+        },
+        {
+          "name": "updateShop",
+          "signature": "public Result updateShop(@RequestBody Shop shop)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenUpdateShop",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "ShopTypeController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/ShopTypeController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/ShopTypeControllerTest.java",
+      "methods": [
+        {
+          "name": "queryTypeList",
+          "signature": "public Result queryTypeList()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryTypeList",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "UploadController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/UploadController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/UploadControllerTest.java",
+      "methods": [
+        {
+          "name": "uploadImage",
+          "signature": "public Result uploadImage(@RequestParam(\"file\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenUploadImage",
+          "complexity": "medium"
+        },
+        {
+          "name": "deleteBlogImg",
+          "signature": "public Result deleteBlogImg(@RequestParam(\"name\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenDeleteBlogImg",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "UserController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/UserController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/UserControllerTest.java",
+      "methods": [
+        {
+          "name": "sendCode",
+          "signature": "public Result sendCode(@RequestParam(\"phone\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSendCode",
+          "complexity": "simple"
+        },
+        {
+          "name": "login",
+          "signature": "public Result login(@RequestBody LoginFormDTO loginForm, HttpSession session)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenLogin",
+          "complexity": "simple"
+        },
+        {
+          "name": "logout",
+          "signature": "public Result logout()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenLogout",
+          "complexity": "simple"
+        },
+        {
+          "name": "me",
+          "signature": "public Result me()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenMe",
+          "complexity": "simple"
+        },
+        {
+          "name": "info",
+          "signature": "public Result info(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenInfo",
+          "complexity": "medium"
+        },
+        {
+          "name": "queryUserById",
+          "signature": "public Result queryUserById(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryUserById",
+          "complexity": "simple"
+        },
+        {
+          "name": "sign",
+          "signature": "public Result sign()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSign",
+          "complexity": "simple"
+        },
+        {
+          "name": "signCount",
+          "signature": "public Result signCount()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSignCount",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "VoucherController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/VoucherController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/VoucherControllerTest.java",
+      "methods": [
+        {
+          "name": "addVoucher",
+          "signature": "public Result addVoucher(@RequestBody Voucher voucher)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenAddVoucher",
+          "complexity": "simple"
+        },
+        {
+          "name": "addSeckillVoucher",
+          "signature": "public Result addSeckillVoucher(@RequestBody Voucher voucher)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenAddSeckillVoucher",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryVoucherOfShop",
+          "signature": "public Result queryVoucherOfShop(@PathVariable(\"shopId\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryVoucherOfShop",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "VoucherOrderController",
+      "package": "com.hmdp.controller",
+      "path": "src/main/java/com/hmdp/controller/VoucherOrderController.java",
+      "type": "controller",
+      "priority": 3,
+      "test_file": "src/test/java/com/hmdp/controller/VoucherOrderControllerTest.java",
+      "methods": [
+        {
+          "name": "seckillVoucher",
+          "signature": "public Result seckillVoucher(@PathVariable(\"id\")",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSeckillVoucher",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "BlogCommentsServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/BlogCommentsServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/BlogCommentsServiceImplTest.java",
+      "methods": []
+    },
+    {
+      "name": "BlogServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/BlogServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/BlogServiceImplTest.java",
+      "methods": [
+        {
+          "name": "queryHotBlog",
+          "signature": "public Result queryHotBlog(Integer current)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryHotBlog",
+          "complexity": "medium"
+        },
+        {
+          "name": "updateLike",
+          "signature": "public Result updateLike(Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenUpdateLike",
+          "complexity": "medium"
+        },
+        {
+          "name": "queryBlogLikes",
+          "signature": "public Result queryBlogLikes(Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryBlogLikes",
+          "complexity": "medium"
+        },
+        {
+          "name": "saveBlog",
+          "signature": "public Result saveBlog(Blog blog)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSaveBlog",
+          "complexity": "medium"
+        },
+        {
+          "name": "quertBlogOfFollow",
+          "signature": "public Result quertBlogOfFollow(Long max, Integer offset)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQuertBlogOfFollow",
+          "complexity": "complex"
+        },
+        {
+          "name": "queryBlogById",
+          "signature": "public Result queryBlogById(Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryBlogById",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "FollowServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/FollowServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/FollowServiceImplTest.java",
+      "methods": [
+        {
+          "name": "follow",
+          "signature": "public Result follow(Long followUserId, Boolean isFollow)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenFollow",
+          "complexity": "medium"
+        },
+        {
+          "name": "isFollow",
+          "signature": "public Result isFollow(Long followUserId)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenIsFollow",
+          "complexity": "simple"
+        },
+        {
+          "name": "followCommons",
+          "signature": "public Result followCommons(Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenFollowCommons",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "IBlogCommentsService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IBlogCommentsService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IBlogCommentsServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IBlogService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IBlogService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IBlogServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IFollowService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IFollowService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IFollowServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "ISeckillVoucherService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/ISeckillVoucherService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/ISeckillVoucherServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IShopService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IShopService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IShopServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IShopTypeService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IShopTypeService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IShopTypeServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IUserInfoService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IUserInfoService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IUserInfoServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IUserService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IUserService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IUserServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IVoucherOrderService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IVoucherOrderService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IVoucherOrderServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "IVoucherService",
+      "package": "com.hmdp.service",
+      "path": "src/main/java/com/hmdp/service/IVoucherService.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/IVoucherServiceTest.java",
+      "methods": []
+    },
+    {
+      "name": "SeckillVoucherServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/SeckillVoucherServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/SeckillVoucherServiceImplTest.java",
+      "methods": []
+    },
+    {
+      "name": "ShopServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/ShopServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/ShopServiceImplTest.java",
+      "methods": [
+        {
+          "name": "queryById",
+          "signature": "public Result queryById(Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryById",
+          "complexity": "medium"
+        },
+        {
+          "name": "saveShop2Redis",
+          "signature": "public void saveShop2Redis(Long id,Long expireSeconds)",
+          "test_status": "pending",
+          "test_method": "shouldSaveShop2RedisSuccessfully",
+          "complexity": "medium"
+        },
+        {
+          "name": "update",
+          "signature": "public Result update(Shop shop)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenUpdate",
+          "complexity": "medium"
+        },
+        {
+          "name": "queryShopByType",
+          "signature": "public Result queryShopByType(Integer typeId, Integer current, Double x, Double y)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryShopByType",
+          "complexity": "complex"
+        }
+      ]
+    },
+    {
+      "name": "ShopTypeServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/ShopTypeServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/ShopTypeServiceImplTest.java",
+      "methods": [
+        {
+          "name": "querySort",
+          "signature": "public Result querySort()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQuerySort",
+          "complexity": "complex"
+        }
+      ]
+    },
+    {
+      "name": "UserInfoServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/UserInfoServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/UserInfoServiceImplTest.java",
+      "methods": []
+    },
+    {
+      "name": "UserServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/UserServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/UserServiceImplTest.java",
+      "methods": [
+        {
+          "name": "sendCode",
+          "signature": "public Result sendCode(String phone, HttpSession session)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSendCode",
+          "complexity": "medium"
+        },
+        {
+          "name": "login",
+          "signature": "public Result login(LoginFormDTO loginForm, HttpSession session)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenLogin",
+          "complexity": "complex"
+        },
+        {
+          "name": "sign",
+          "signature": "public Result sign()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSign",
+          "complexity": "medium"
+        },
+        {
+          "name": "signCount",
+          "signature": "public Result signCount()",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSignCount",
+          "complexity": "complex"
+        }
+      ]
+    },
+    {
+      "name": "VoucherOrderServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/VoucherOrderServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/VoucherOrderServiceImplTest.java",
+      "methods": [
+        {
+          "name": "run",
+          "signature": "public void run()",
+          "test_status": "pending",
+          "test_method": "shouldRunSuccessfully",
+          "complexity": "medium"
+        },
+        {
+          "name": "handleVoucherOrder",
+          "signature": "public void handleVoucherOrder(VoucherOrder voucherOrder)",
+          "test_status": "pending",
+          "test_method": "shouldHandleVoucherOrderSuccessfully",
+          "complexity": "medium"
+        },
+        {
+          "name": "seckillVoucher",
+          "signature": "public Result seckillVoucher(Long voucherId)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenSeckillVoucher",
+          "complexity": "complex"
+        },
+        {
+          "name": "createVoucherOrder",
+          "signature": "public void createVoucherOrder(VoucherOrder voucherOrder)",
+          "test_status": "pending",
+          "test_method": "shouldCreateVoucherOrderSuccessfully",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "VoucherServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "path": "src/main/java/com/hmdp/service/impl/VoucherServiceImpl.java",
+      "type": "service",
+      "priority": 4,
+      "test_file": "src/test/java/com/hmdp/service/impl/VoucherServiceImplTest.java",
+      "methods": [
+        {
+          "name": "queryVoucherOfShop",
+          "signature": "public Result queryVoucherOfShop(Long shopId)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryVoucherOfShop",
+          "complexity": "simple"
+        },
+        {
+          "name": "addSeckillVoucher",
+          "signature": "public void addSeckillVoucher(Voucher voucher)",
+          "test_status": "pending",
+          "test_method": "shouldAddSeckillVoucherSuccessfully",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "BlogCommentsMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/BlogCommentsMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/BlogCommentsMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "BlogMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/BlogMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/BlogMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "FollowMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/FollowMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/FollowMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "SeckillVoucherMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/SeckillVoucherMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/SeckillVoucherMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "ShopMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/ShopMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/ShopMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "ShopTypeMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/ShopTypeMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/ShopTypeMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "UserInfoMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/UserInfoMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/UserInfoMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "UserMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/UserMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/UserMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "VoucherMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/VoucherMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/VoucherMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "VoucherOrderMapper",
+      "package": "com.hmdp.mapper",
+      "path": "src/main/java/com/hmdp/mapper/VoucherOrderMapper.java",
+      "type": "mapper",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/mapper/VoucherOrderMapperTest.java",
+      "methods": []
+    },
+    {
+      "name": "SeckillVoucherListener",
+      "package": "com.hmdp.listener",
+      "path": "src/main/java/com/hmdp/listener/SeckillVoucherListener.java",
+      "type": "other",
+      "priority": 6,
+      "test_file": "src/test/java/com/hmdp/listener/SeckillVoucherListenerTest.java",
+      "methods": [
+        {
+          "name": "receivedA",
+          "signature": "public void receivedA(Message message, Channel channel)",
+          "test_status": "pending",
+          "test_method": "shouldReceivedASuccessfully",
+          "complexity": "medium"
+        },
+        {
+          "name": "receivedD",
+          "signature": "public void receivedD(Message message)",
+          "test_status": "pending",
+          "test_method": "shouldReceivedDSuccessfully",
+          "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "WebExceptionAdvice",
+      "package": "com.hmdp.config",
+      "path": "src/main/java/com/hmdp/config/WebExceptionAdvice.java",
+      "type": "other",
+      "priority": 6,
+      "test_file": "src/test/java/com/hmdp/config/WebExceptionAdviceTest.java",
+      "methods": [
+        {
+          "name": "handleRuntimeException",
+          "signature": "public Result handleRuntimeException(RuntimeException e)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenHandleRuntimeException",
+          "complexity": "simple"
+        }
+      ]
+    }
+  ]
+}

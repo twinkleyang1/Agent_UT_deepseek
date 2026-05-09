@@ -1,0 +1,10 @@
+{
+  "report_date": "2026-05-09",
+  "overall_coverage": {
+    "line": 0.145,
+    "branch": 0.017,
+    "method": 0.2
+  },
+  "sprint_status": "rework",
+  "note": "Services require Redis+MySQL for unit testing"
+}

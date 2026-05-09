@@ -1,0 +1,10 @@
+{
+  "plan_version": "1.0",
+  "iteration": 0,
+  "coverage_target": { "line": 0.70, "branch": 0.60 },
+  "batch_size": 5,
+  "current_batch": [],
+  "completed_methods": 0,
+  "total_methods": 0,
+  "failed_methods": []
+}
