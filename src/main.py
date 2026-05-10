@@ -41,12 +41,22 @@ from src.orchestrator import Orchestrator
 
 
 def cmd_init(orchestrator: Orchestrator, args) -> int:
-    """Initialize: scan project, create state files."""
+    """Initialize: scan project, create state files, sync existing tests."""
     if orchestrator.state.is_initialized() and not args.force:
         print("Already initialized. Use --force to re-initialize.")
         return 0
 
     orchestrator.run_phase1()
+
+    # Auto-sync existing test files
+    test_dir = os.path.join(orchestrator.java_project_path,
+                            "src", "test", "java")
+    if os.path.exists(test_dir):
+        sync_result = orchestrator.state.sync_existing_tests(test_dir)
+        print(f"\nSynced existing tests: {sync_result['synced']} matched, "
+              f"{sync_result['skipped']} unmatched "
+              f"({sync_result.get('classes_with_tests', 0)} test classes)")
+
     print("\nInitialization complete.")
     print(f"Run 'python src/main.py status' to see status.")
     print(f"Run 'python src/main.py run' to execute next phase.")

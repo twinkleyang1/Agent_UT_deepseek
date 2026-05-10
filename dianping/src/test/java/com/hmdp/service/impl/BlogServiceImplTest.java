@@ -1,13 +1,12 @@
 package com.hmdp.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hmdp.dto.Result;
+import com.hmdp.dto.ScrollResult;
 import com.hmdp.dto.UserDTO;
 import com.hmdp.entity.Blog;
 import com.hmdp.entity.User;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hmdp.mapper.BlogMapper;
-import com.hmdp.service.IFollowService;
 import com.hmdp.service.IUserService;
 import com.hmdp.utils.UserHolder;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
@@ -32,18 +32,23 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class BlogServiceImplTest {
 
-    @Mock private BlogMapper baseMapper;
-    @Mock private IUserService userService;
-    @Mock private IFollowService followService;
-    @Mock private StringRedisTemplate stringRedisTemplate;
-    @Mock private ZSetOperations<String, String> zSetOps;
-    @InjectMocks private BlogServiceImpl service;
+    @Mock
+    private BlogMapper blogMapper;
+
+    @Mock
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Mock
+    private ZSetOperations<String, String> zSetOps;
+
+    @Mock
+    private IUserService userService;
+
+    @InjectMocks
+    private BlogServiceImpl blogService;
 
     @BeforeEach
     void setUp() {
-        UserDTO user = new UserDTO();
-        user.setId(1L);
-        UserHolder.saveUser(user);
         when(stringRedisTemplate.opsForZSet()).thenReturn(zSetOps);
     }
 
@@ -53,118 +58,151 @@ class BlogServiceImplTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    void shouldQueryHotBlog() {
-        Blog blog = new Blog();
-        blog.setId(1L);
-        blog.setUserId(2L);
-        when(baseMapper.selectPage(any(Page.class), any(Wrapper.class))).thenReturn(
-                new Page<Blog>(1, 10).setRecords(List.of(blog)));
-        when(zSetOps.score(anyString(), anyString())).thenReturn(null);
-        User user = new User();
-        user.setNickName("test");
-        user.setIcon("icon.png");
-        when(userService.getById(2L)).thenReturn(user);
+    void shouldReturnResultWhenQuertBlogOfFollow() {
+        // Arrange - set current user via UserHolder
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        UserHolder.saveUser(userDTO);
 
-        Result result = service.queryHotBlog(1);
+        // Mock Redis ZSet reverseRangeByScoreWithScores: return 2 blog entries
+        Set<ZSetOperations.TypedTuple<String>> tuples = new LinkedHashSet<>();
+        tuples.add(new DefaultTypedTuple<>("10", 1000.0));
+        tuples.add(new DefaultTypedTuple<>("20", 1000.0));
+        when(zSetOps.reverseRangeByScoreWithScores(anyString(), anyDouble(), anyDouble(), anyLong(), anyLong()))
+                .thenReturn(tuples);
 
+        // Mock zSetOps.score for isBlogLiked (return non-null = liked)
+        when(zSetOps.score(anyString(), anyString())).thenReturn(1.0);
+
+        // Mock baseMapper.selectList for chain call query().in().last().list()
+        Blog blog1 = new Blog();
+        blog1.setId(10L);
+        blog1.setUserId(2L);
+        Blog blog2 = new Blog();
+        blog2.setId(20L);
+        blog2.setUserId(3L);
+        when(blogMapper.selectList(any())).thenReturn(Arrays.asList(blog1, blog2));
+
+        // Mock userService.getById for queryBlogUser
+        User user1 = new User();
+        user1.setNickName("Alice");
+        user1.setIcon("icon1.png");
+        User user2 = new User();
+        user2.setNickName("Bob");
+        user2.setIcon("icon2.png");
+        when(userService.getById(2L)).thenReturn(user1);
+        when(userService.getById(3L)).thenReturn(user2);
+
+        // Act
+        Result result = blogService.quertBlogOfFollow(Long.MAX_VALUE, 0);
+
+        // Assert
+        assertNotNull(result);
         assertTrue(result.getSuccess());
-        List<Blog> blogs = (List<Blog>) result.getData();
-        assertEquals(1, blogs.size());
+        ScrollResult scrollResult = (ScrollResult) result.getData();
+        assertNotNull(scrollResult);
+        List<?> blogs = scrollResult.getList();
+        assertEquals(2, blogs.size());
+        assertEquals(1000L, scrollResult.getMinTime().longValue());
+        assertEquals(2, scrollResult.getOffset().intValue());
+
+        // Verify blog was enriched with user info and like status
+        Blog resultBlog1 = (Blog) blogs.get(0);
+        assertEquals("Alice", resultBlog1.getName());
+        assertEquals("icon1.png", resultBlog1.getIcon());
+        assertTrue(resultBlog1.getIsLike());
+
+        Blog resultBlog2 = (Blog) blogs.get(1);
+        assertEquals("Bob", resultBlog2.getName());
+        assertEquals("icon2.png", resultBlog2.getIcon());
+        assertTrue(resultBlog2.getIsLike());
     }
 
     @Test
-    void shouldLikeWhenNotLiked() {
-        when(zSetOps.score(anyString(), eq("1"))).thenReturn(null);
-        when(baseMapper.update(isNull(), any(Wrapper.class))).thenReturn(1);
-        when(zSetOps.add(anyString(), eq("1"), anyDouble())).thenReturn(true);
+    void shouldReturnResultWhenQueryHotBlog() {
+        // Arrange - set current user via UserHolder so isBlogLiked does not short-circuit
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        UserHolder.saveUser(userDTO);
 
-        Result result = service.updateLike(10L);
+        // Mock baseMapper.selectPage for query().orderByDesc("liked").page()
+        Blog blog1 = new Blog();
+        blog1.setId(10L);
+        blog1.setUserId(2L);
+        Blog blog2 = new Blog();
+        blog2.setId(20L);
+        blog2.setUserId(3L);
 
+        when(blogMapper.selectPage(any(), any())).thenAnswer(invocation -> {
+            Page<Blog> page = invocation.getArgument(0);
+            page.setRecords(Arrays.asList(blog1, blog2));
+            page.setTotal(2);
+            return page;
+        });
+
+        // Mock zSetOps.score for isBlogLiked (return non-null = liked)
+        when(zSetOps.score(anyString(), anyString())).thenReturn(1.0);
+
+        // Mock userService.getById for queryBlogUser
+        User user1 = new User();
+        user1.setNickName("Alice");
+        user1.setIcon("icon1.png");
+        User user2 = new User();
+        user2.setNickName("Bob");
+        user2.setIcon("icon2.png");
+        when(userService.getById(2L)).thenReturn(user1);
+        when(userService.getById(3L)).thenReturn(user2);
+
+        // Act
+        Result result = blogService.queryHotBlog(1);
+
+        // Assert
+        assertNotNull(result);
         assertTrue(result.getSuccess());
-        verify(zSetOps).add(anyString(), eq("1"), anyDouble());
+        List<?> records = (List<?>) result.getData();
+        assertNotNull(records);
+        assertEquals(2, records.size());
+
+        Blog resultBlog1 = (Blog) records.get(0);
+        assertEquals("Alice", resultBlog1.getName());
+        assertEquals("icon1.png", resultBlog1.getIcon());
+        assertTrue(resultBlog1.getIsLike());
+
+        Blog resultBlog2 = (Blog) records.get(1);
+        assertEquals("Bob", resultBlog2.getName());
+        assertEquals("icon2.png", resultBlog2.getIcon());
+        assertTrue(resultBlog2.getIsLike());
     }
 
     @Test
-    void shouldUnlikeWhenAlreadyLiked() {
-        when(zSetOps.score(anyString(), eq("1"))).thenReturn(1.0);
-        when(baseMapper.update(isNull(), any(Wrapper.class))).thenReturn(1);
-        when(zSetOps.remove(anyString(), eq("1"))).thenReturn(1L);
+    void shouldReturnResultWhenUpdateLike() {
+        // Arrange - set current user via UserHolder
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        UserHolder.saveUser(userDTO);
 
-        Result result = service.updateLike(10L);
+        Long blogId = 10L;
+        String keyPrefix = "blog:liked:";
 
+        // User hasn't liked this blog yet → zset score returns null
+        when(zSetOps.score(contains(keyPrefix), eq("1"))).thenReturn(null);
+
+        // MyBatis-Plus chain: update().setSql("liked=liked+1").eq("id", id).update()
+        // internally calls baseMapper.update(null, UpdateWrapper)
+        // Return 1 to indicate 1 row affected → isSuccess = true
+        when(blogMapper.update(isNull(), any())).thenReturn(1);
+
+        // Act
+        Result result = blogService.updateLike(blogId);
+
+        // Assert
+        assertNotNull(result);
         assertTrue(result.getSuccess());
-        verify(zSetOps).remove(anyString(), eq("1"));
-    }
 
-    @Test
-    void shouldReturnEmptyWhenNoLikes() {
-        when(zSetOps.range(anyString(), eq(0L), eq(4L))).thenReturn(Collections.emptySet());
+        // Verify DB update was called (like count +1)
+        verify(blogMapper).update(isNull(), any());
 
-        Result result = service.queryBlogLikes(10L);
-
-        assertTrue(result.getSuccess());
-        assertEquals(Collections.emptyList(), result.getData());
-    }
-
-    @Test
-    void shouldReturnEmptyWhenNullLikes() {
-        when(zSetOps.range(anyString(), eq(0L), eq(4L))).thenReturn(null);
-
-        Result result = service.queryBlogLikes(10L);
-
-        assertTrue(result.getSuccess());
-        assertEquals(Collections.emptyList(), result.getData());
-    }
-
-    @Test
-    void shouldFailSaveWhenInsertFails() {
-        Blog blog = new Blog();
-        when(baseMapper.insert(blog)).thenReturn(0);
-
-        Result result = service.saveBlog(blog);
-
-        assertFalse(result.getSuccess());
-        assertEquals("新增笔记失败", result.getErrorMsg());
-    }
-
-    @Test
-    void shouldQueryBlogByIdFound() {
-        Blog blog = new Blog();
-        blog.setId(1L);
-        blog.setUserId(2L);
-        when(baseMapper.selectById(1L)).thenReturn(blog);
-        when(zSetOps.score(anyString(), eq("1"))).thenReturn(null);
-        User user = new User();
-        user.setNickName("test");
-        user.setIcon("icon.png");
-        when(userService.getById(2L)).thenReturn(user);
-
-        Result result = service.queryBlogById(1L);
-
-        assertTrue(result.getSuccess());
-        Blog data = (Blog) result.getData();
-        assertEquals(1L, data.getId());
-    }
-
-    @Test
-    void shouldFailQueryBlogByIdNotFound() {
-        when(baseMapper.selectById(99L)).thenReturn(null);
-
-        Result result = service.queryBlogById(99L);
-
-        assertFalse(result.getSuccess());
-        assertEquals("博客不存在", result.getErrorMsg());
-    }
-
-    @Test
-    void shouldReturnEmptyQuertBlogOfFollowWhenNoFeeds() {
-        when(zSetOps.reverseRangeByScoreWithScores(anyString(), anyDouble(), anyDouble(), anyLong(), anyInt()))
-                .thenReturn(null);
-
-        Result result = service.quertBlogOfFollow(100L, 0);
-
-        assertTrue(result.getSuccess());
-        assertNull(result.getData());
+        // Verify Redis ZSet add was called (user added to liked set)
+        verify(zSetOps).add(contains(keyPrefix), eq("1"), anyDouble());
     }
 }

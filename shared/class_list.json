@@ -1,6 +1,6 @@
 {
   "project_path": "/home/twinkle/app/808/Agent_UT_deepseek/dianping",
-  "scan_date": "2026-05-09 15:00",
+  "scan_date": "2026-05-09",
   "classes": [
     {
       "name": "Blog",
@@ -49,21 +49,21 @@
         {
           "name": "ok",
           "signature": "public Result ok()",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldReturnResultWhenOk",
           "complexity": "simple"
         },
         {
           "name": "ok",
           "signature": "public Result ok(Object data)",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldReturnResultWhenOk",
           "complexity": "simple"
         },
         {
           "name": "ok",
           "signature": "public Result ok(List<?> data, Long total)",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldReturnResultWhenOk",
           "complexity": "simple"
         },
@@ -168,16 +168,34 @@
         {
           "name": "set",
           "signature": "public void set(String key, Object value, Long time, TimeUnit unit)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldSetSuccessfully",
-          "complexity": "simple"
+          "complexity": "simple",
+          "synced": true
         },
         {
           "name": "setWithLogicalExpire",
           "signature": "public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldSetWithLogicalExpireSuccessfully",
-          "complexity": "simple"
+          "complexity": "simple",
+          "synced": true
+        },
+        {
+          "name": "queryWithPassThrough",
+          "signature": "public <R,ID> R queryWithPassThrough(String keyPrefix, ID id, Class<R> type, Function<ID,R> dbFallback,Long time,TimeUnit unit)",
+          "test_status": "pass",
+          "test_method": "shouldReturn<r,id> rWhenQueryWithPassThrough",
+          "complexity": "medium",
+          "synced": true
+        },
+        {
+          "name": "queryWithLogicalExpire",
+          "signature": "public <R,ID> R queryWithLogicalExpire(String keyPrefix,ID id,Class<R> type,Function<ID,R> dbFallback,Long time,TimeUnit unit)",
+          "test_status": "pass",
+          "test_method": "shouldReturn<r,id> rWhenQueryWithLogicalExpire",
+          "complexity": "complex",
+          "synced": true
         }
       ]
     },
@@ -189,6 +207,41 @@
       "priority": 2,
       "test_file": "src/test/java/com/hmdp/utils/ILockTest.java",
       "methods": []
+    },
+    {
+      "name": "MvcConfig",
+      "package": "com.hmdp.config",
+      "path": "src/main/java/com/hmdp/config/MvcConfig.java",
+      "type": "config",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/config/MvcConfigTest.java",
+      "methods": [
+        {
+          "name": "addInterceptors",
+          "signature": "public void addInterceptors(InterceptorRegistry registry)",
+          "test_status": "pass",
+          "test_method": "shouldAddInterceptorsSuccessfully",
+          "complexity": "medium",
+          "synced": true
+        }
+      ]
+    },
+    {
+      "name": "MybatisConfig",
+      "package": "com.hmdp.config",
+      "path": "src/main/java/com/hmdp/config/MybatisConfig.java",
+      "type": "config",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/config/MybatisConfigTest.java",
+      "methods": [
+        {
+          "name": "mybatisPlusInterceptor",
+          "signature": "public MybatisPlusInterceptor mybatisPlusInterceptor()",
+          "test_status": "pending",
+          "test_method": "shouldReturnMybatisplusinterceptorWhenMybatisPlusInterceptor",
+          "complexity": "simple"
+        }
+      ]
     },
     {
       "name": "PasswordEncoder",
@@ -203,16 +256,80 @@
           "signature": "public String encode(String password)",
           "test_status": "pass",
           "test_method": "shouldReturnStringWhenEncode",
-          "complexity": "simple"
+          "complexity": "simple",
+          "synced": true
         },
         {
           "name": "matches",
           "signature": "public Boolean matches(String encodedPassword, String rawPassword)",
           "test_status": "pass",
           "test_method": "shouldMatchesSuccessfully",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         }
       ]
+    },
+    {
+      "name": "QueueConfig",
+      "package": "com.hmdp.config",
+      "path": "src/main/java/com/hmdp/config/QueueConfig.java",
+      "type": "config",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/config/QueueConfigTest.java",
+      "methods": [
+        {
+          "name": "xExchange",
+          "signature": "public DirectExchange xExchange()",
+          "test_status": "pending",
+          "test_method": "shouldReturnDirectexchangeWhenXExchange",
+          "complexity": "simple"
+        },
+        {
+          "name": "yExchange",
+          "signature": "public DirectExchange yExchange()",
+          "test_status": "pending",
+          "test_method": "shouldReturnDirectexchangeWhenYExchange",
+          "complexity": "simple"
+        },
+        {
+          "name": "queueA",
+          "signature": "public Queue queueA()",
+          "test_status": "pass",
+          "test_method": "shouldReturnQueueWhenQueueA",
+          "complexity": "medium",
+          "synced": true
+        },
+        {
+          "name": "queueD",
+          "signature": "public Queue queueD()",
+          "test_status": "pending",
+          "test_method": "shouldReturnQueueWhenQueueD",
+          "complexity": "simple"
+        },
+        {
+          "name": "queueABindingX",
+          "signature": "public Binding queueABindingX(@Qualifier(\"\")Queue queueA, @Qualifier(\"\") DirectExchange xExchange)",
+          "test_status": "pending",
+          "test_method": "shouldReturnBindingWhenQueueABindingX",
+          "complexity": "simple"
+        },
+        {
+          "name": "queueDBindingY",
+          "signature": "public Binding queueDBindingY(@Qualifier(\"\")Queue queueD, @Qualifier(\"\") DirectExchange yExchange)",
+          "test_status": "pending",
+          "test_method": "shouldReturnBindingWhenQueueDBindingY",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "RedisConstants",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/RedisConstants.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/RedisConstantsTest.java",
+      "methods": []
     },
     {
       "name": "RedisData",
@@ -234,9 +351,27 @@
         {
           "name": "nextId",
           "signature": "public Long nextId(String keyPrefix)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnLongWhenNextId",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
+        }
+      ]
+    },
+    {
+      "name": "RedissonConfig",
+      "package": "com.hmdp.config",
+      "path": "src/main/java/com/hmdp/config/RedissonConfig.java",
+      "type": "config",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/config/RedissonConfigTest.java",
+      "methods": [
+        {
+          "name": "redissonClient",
+          "signature": "public RedissonClient redissonClient()",
+          "test_status": "pending",
+          "test_method": "shouldReturnRedissonclientWhenRedissonClient",
+          "complexity": "simple"
         }
       ]
     },
@@ -260,21 +395,21 @@
         {
           "name": "isPhoneInvalid",
           "signature": "public boolean isPhoneInvalid(String phone)",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldIsPhoneInvalidSuccessfully",
           "complexity": "simple"
         },
         {
           "name": "isEmailInvalid",
           "signature": "public boolean isEmailInvalid(String email)",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldIsEmailInvalidSuccessfully",
           "complexity": "simple"
         },
         {
           "name": "isCodeInvalid",
           "signature": "public boolean isCodeInvalid(String code)",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldIsCodeInvalidSuccessfully",
           "complexity": "simple"
         }
@@ -305,6 +440,15 @@
       ]
     },
     {
+      "name": "SystemConstants",
+      "package": "com.hmdp.utils",
+      "path": "src/main/java/com/hmdp/utils/SystemConstants.java",
+      "type": "utils",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/utils/SystemConstantsTest.java",
+      "methods": []
+    },
+    {
       "name": "UserHolder",
       "package": "com.hmdp.utils",
       "path": "src/main/java/com/hmdp/utils/UserHolder.java",
@@ -315,22 +459,39 @@
         {
           "name": "saveUser",
           "signature": "public void saveUser(UserDTO user)",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldSaveUserSuccessfully",
           "complexity": "simple"
         },
         {
           "name": "getUser",
           "signature": "public UserDTO getUser()",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldReturnUserdtoWhenGetUser",
           "complexity": "simple"
         },
         {
           "name": "removeUser",
           "signature": "public void removeUser()",
-          "test_status": "pass",
+          "test_status": "pending",
           "test_method": "shouldRemoveUserSuccessfully",
+          "complexity": "simple"
+        }
+      ]
+    },
+    {
+      "name": "WebExceptionAdvice",
+      "package": "com.hmdp.config",
+      "path": "src/main/java/com/hmdp/config/WebExceptionAdvice.java",
+      "type": "config",
+      "priority": 2,
+      "test_file": "src/test/java/com/hmdp/config/WebExceptionAdviceTest.java",
+      "methods": [
+        {
+          "name": "handleRuntimeException",
+          "signature": "public Result handleRuntimeException(RuntimeException e)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenHandleRuntimeException",
           "complexity": "simple"
         }
       ]
@@ -361,37 +522,51 @@
         },
         {
           "name": "likeBlog",
-          "signature": "public Result likeBlog(@PathVariable(\"id\")",
+          "signature": "public Result likeBlog(@PathVariable(\"\") Long id)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenLikeBlog",
           "complexity": "simple"
         },
         {
           "name": "queryMyBlog",
-          "signature": "public Result queryMyBlog(@RequestParam(value = \"current\", defaultValue = \"1\")",
+          "signature": "public Result queryMyBlog(@RequestParam(value = \"\", defaultValue = \"\") Integer current)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryMyBlog",
           "complexity": "simple"
         },
         {
           "name": "queryHotBlog",
-          "signature": "public Result queryHotBlog(@RequestParam(value = \"current\", defaultValue = \"1\")",
+          "signature": "public Result queryHotBlog(@RequestParam(value = \"\", defaultValue = \"\") Integer current)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryHotBlog",
           "complexity": "simple"
         },
         {
           "name": "queryById",
-          "signature": "public Result queryById(@PathVariable(\"id\")",
+          "signature": "public Result queryById(@PathVariable(\"\") Long id)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryById",
           "complexity": "simple"
         },
         {
           "name": "queryBlogLikes",
-          "signature": "public Result queryBlogLikes(@PathVariable(\"id\")",
+          "signature": "public Result queryBlogLikes(@PathVariable(\"\") Long id)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryBlogLikes",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryBlogByUserId",
+          "signature": "public Result queryBlogByUserId(@RequestParam(value = \"\",defaultValue = \"\") Integer currrent, @RequestParam(\"\") Long id)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryBlogByUserId",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryBlogOfFollow",
+          "signature": "public Result queryBlogOfFollow(@RequestParam(\"\") Long max, @RequestParam(value = \"\",defaultValue = \"\") Integer offset)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryBlogOfFollow",
           "complexity": "simple"
         }
       ]
@@ -406,14 +581,14 @@
       "methods": [
         {
           "name": "follow",
-          "signature": "public Result follow(@PathVariable(\"id\")",
+          "signature": "public Result follow(@PathVariable(\"\") Long followUserId,@PathVariable(\"\") Boolean isFollow)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenFollow",
           "complexity": "simple"
         },
         {
           "name": "follow",
-          "signature": "public Result follow(@PathVariable(\"id\")",
+          "signature": "public Result follow(@PathVariable(\"\") Long followUserId)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenFollow",
           "complexity": "simple"
@@ -437,7 +612,7 @@
       "methods": [
         {
           "name": "queryShopById",
-          "signature": "public Result queryShopById(@PathVariable(\"id\")",
+          "signature": "public Result queryShopById(@PathVariable(\"\") Long id)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryShopById",
           "complexity": "simple"
@@ -454,6 +629,20 @@
           "signature": "public Result updateShop(@RequestBody Shop shop)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenUpdateShop",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryShopByType",
+          "signature": "public Result queryShopByType(@RequestParam(\"\") Integer typeId, @RequestParam(value = \"\", defaultValue = \"\") Integer current, @RequestParam(value = \"\",required = false) Double x, @RequestParam(value = \"\",required = false) Double y)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryShopByType",
+          "complexity": "simple"
+        },
+        {
+          "name": "queryShopByName",
+          "signature": "public Result queryShopByName(@RequestParam(value = \"\", required = false) String name, @RequestParam(value = \"\", defaultValue = \"\") Integer current)",
+          "test_status": "pending",
+          "test_method": "shouldReturnResultWhenQueryShopByName",
           "complexity": "simple"
         }
       ]
@@ -485,17 +674,19 @@
       "methods": [
         {
           "name": "uploadImage",
-          "signature": "public Result uploadImage(@RequestParam(\"file\")",
-          "test_status": "pending",
+          "signature": "public Result uploadImage(@RequestParam(\"\") MultipartFile image)",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenUploadImage",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "deleteBlogImg",
-          "signature": "public Result deleteBlogImg(@RequestParam(\"name\")",
-          "test_status": "pending",
+          "signature": "public Result deleteBlogImg(@RequestParam(\"\") String filename)",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenDeleteBlogImg",
-          "complexity": "simple"
+          "complexity": "simple",
+          "synced": true
         }
       ]
     },
@@ -509,7 +700,7 @@
       "methods": [
         {
           "name": "sendCode",
-          "signature": "public Result sendCode(@RequestParam(\"phone\")",
+          "signature": "public Result sendCode(@RequestParam(\"\") String phone, HttpSession session)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenSendCode",
           "complexity": "simple"
@@ -537,14 +728,15 @@
         },
         {
           "name": "info",
-          "signature": "public Result info(@PathVariable(\"id\")",
-          "test_status": "pending",
+          "signature": "public Result info(@PathVariable(\"\") Long userId)",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenInfo",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "queryUserById",
-          "signature": "public Result queryUserById(@PathVariable(\"id\")",
+          "signature": "public Result queryUserById(@PathVariable(\"\") Long userId)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryUserById",
           "complexity": "simple"
@@ -589,7 +781,7 @@
         },
         {
           "name": "queryVoucherOfShop",
-          "signature": "public Result queryVoucherOfShop(@PathVariable(\"shopId\")",
+          "signature": "public Result queryVoucherOfShop(@PathVariable(\"\") Long shopId)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenQueryVoucherOfShop",
           "complexity": "simple"
@@ -606,7 +798,7 @@
       "methods": [
         {
           "name": "seckillVoucher",
-          "signature": "public Result seckillVoucher(@PathVariable(\"id\")",
+          "signature": "public Result seckillVoucher(@PathVariable(\"\") Long voucherId)",
           "test_status": "pending",
           "test_method": "shouldReturnResultWhenSeckillVoucher",
           "complexity": "simple"
@@ -633,44 +825,50 @@
         {
           "name": "queryHotBlog",
           "signature": "public Result queryHotBlog(Integer current)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQueryHotBlog",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "updateLike",
           "signature": "public Result updateLike(Long id)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenUpdateLike",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "queryBlogLikes",
           "signature": "public Result queryBlogLikes(Long id)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQueryBlogLikes",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "saveBlog",
           "signature": "public Result saveBlog(Blog blog)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenSaveBlog",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "quertBlogOfFollow",
           "signature": "public Result quertBlogOfFollow(Long max, Integer offset)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQuertBlogOfFollow",
-          "complexity": "complex"
+          "complexity": "complex",
+          "synced": true
         },
         {
           "name": "queryBlogById",
           "signature": "public Result queryBlogById(Long id)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQueryBlogById",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         }
       ]
     },
@@ -685,9 +883,10 @@
         {
           "name": "follow",
           "signature": "public Result follow(Long followUserId, Boolean isFollow)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenFollow",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "isFollow",
@@ -815,30 +1014,34 @@
         {
           "name": "queryById",
           "signature": "public Result queryById(Long id)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQueryById",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "saveShop2Redis",
           "signature": "public void saveShop2Redis(Long id,Long expireSeconds)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldSaveShop2RedisSuccessfully",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "update",
           "signature": "public Result update(Shop shop)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenUpdate",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "queryShopByType",
           "signature": "public Result queryShopByType(Integer typeId, Integer current, Double x, Double y)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQueryShopByType",
-          "complexity": "complex"
+          "complexity": "complex",
+          "synced": true
         }
       ]
     },
@@ -853,9 +1056,10 @@
         {
           "name": "querySort",
           "signature": "public Result querySort()",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQuerySort",
-          "complexity": "complex"
+          "complexity": "complex",
+          "synced": true
         }
       ]
     },
@@ -879,30 +1083,34 @@
         {
           "name": "sendCode",
           "signature": "public Result sendCode(String phone, HttpSession session)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenSendCode",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "login",
           "signature": "public Result login(LoginFormDTO loginForm, HttpSession session)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenLogin",
-          "complexity": "complex"
+          "complexity": "complex",
+          "synced": true
         },
         {
           "name": "sign",
           "signature": "public Result sign()",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenSign",
-          "complexity": "medium"
+          "complexity": "medium",
+          "synced": true
         },
         {
           "name": "signCount",
           "signature": "public Result signCount()",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenSignCount",
-          "complexity": "complex"
+          "complexity": "complex",
+          "synced": true
         }
       ]
     },
@@ -931,9 +1139,10 @@
         {
           "name": "seckillVoucher",
           "signature": "public Result seckillVoucher(Long voucherId)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenSeckillVoucher",
-          "complexity": "complex"
+          "complexity": "complex",
+          "synced": true
         },
         {
           "name": "createVoucherOrder",
@@ -955,16 +1164,59 @@
         {
           "name": "queryVoucherOfShop",
           "signature": "public Result queryVoucherOfShop(Long shopId)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldReturnResultWhenQueryVoucherOfShop",
-          "complexity": "simple"
+          "complexity": "simple",
+          "synced": true
         },
         {
           "name": "addSeckillVoucher",
           "signature": "public void addSeckillVoucher(Voucher voucher)",
-          "test_status": "pending",
+          "test_status": "pass",
           "test_method": "shouldAddSeckillVoucherSuccessfully",
+          "complexity": "medium",
+          "synced": true
+        }
+      ]
+    },
+    {
+      "name": "LoginInterceptor",
+      "package": "com.hmdp.interceptor",
+      "path": "src/main/java/com/hmdp/interceptor/LoginInterceptor.java",
+      "type": "interceptor",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/interceptor/LoginInterceptorTest.java",
+      "methods": [
+        {
+          "name": "preHandle",
+          "signature": "public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)",
+          "test_status": "pending",
+          "test_method": "shouldPreHandleSuccessfully",
           "complexity": "medium"
+        }
+      ]
+    },
+    {
+      "name": "RefreshTokenInterceptor",
+      "package": "com.hmdp.interceptor",
+      "path": "src/main/java/com/hmdp/interceptor/RefreshTokenInterceptor.java",
+      "type": "interceptor",
+      "priority": 5,
+      "test_file": "src/test/java/com/hmdp/interceptor/RefreshTokenInterceptorTest.java",
+      "methods": [
+        {
+          "name": "preHandle",
+          "signature": "public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)",
+          "test_status": "pending",
+          "test_method": "shouldPreHandleSuccessfully",
+          "complexity": "medium"
+        },
+        {
+          "name": "afterCompletion",
+          "signature": "public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)",
+          "test_status": "pending",
+          "test_method": "shouldAfterCompletionSuccessfully",
+          "complexity": "simple"
         }
       ]
     },
@@ -973,7 +1225,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/BlogCommentsMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/BlogCommentsMapperTest.java",
       "methods": []
     },
@@ -982,7 +1234,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/BlogMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/BlogMapperTest.java",
       "methods": []
     },
@@ -991,7 +1243,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/FollowMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/FollowMapperTest.java",
       "methods": []
     },
@@ -1000,7 +1252,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/SeckillVoucherMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/SeckillVoucherMapperTest.java",
       "methods": []
     },
@@ -1009,7 +1261,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/ShopMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/ShopMapperTest.java",
       "methods": []
     },
@@ -1018,7 +1270,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/ShopTypeMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/ShopTypeMapperTest.java",
       "methods": []
     },
@@ -1027,7 +1279,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/UserInfoMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/UserInfoMapperTest.java",
       "methods": []
     },
@@ -1036,7 +1288,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/UserMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/UserMapperTest.java",
       "methods": []
     },
@@ -1045,7 +1297,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/VoucherMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/VoucherMapperTest.java",
       "methods": []
     },
@@ -1054,7 +1306,7 @@
       "package": "com.hmdp.mapper",
       "path": "src/main/java/com/hmdp/mapper/VoucherOrderMapper.java",
       "type": "mapper",
-      "priority": 5,
+      "priority": 6,
       "test_file": "src/test/java/com/hmdp/mapper/VoucherOrderMapperTest.java",
       "methods": []
     },
@@ -1063,7 +1315,7 @@
       "package": "com.hmdp.listener",
       "path": "src/main/java/com/hmdp/listener/SeckillVoucherListener.java",
       "type": "other",
-      "priority": 6,
+      "priority": 7,
       "test_file": "src/test/java/com/hmdp/listener/SeckillVoucherListenerTest.java",
       "methods": [
         {
@@ -1079,23 +1331,6 @@
           "test_status": "pending",
           "test_method": "shouldReceivedDSuccessfully",
           "complexity": "medium"
-        }
-      ]
-    },
-    {
-      "name": "WebExceptionAdvice",
-      "package": "com.hmdp.config",
-      "path": "src/main/java/com/hmdp/config/WebExceptionAdvice.java",
-      "type": "other",
-      "priority": 6,
-      "test_file": "src/test/java/com/hmdp/config/WebExceptionAdviceTest.java",
-      "methods": [
-        {
-          "name": "handleRuntimeException",
-          "signature": "public Result handleRuntimeException(RuntimeException e)",
-          "test_status": "pending",
-          "test_method": "shouldReturnResultWhenHandleRuntimeException",
-          "complexity": "simple"
         }
       ]
     }

@@ -26,21 +26,19 @@ class Orchestrator:
     # Priority by class type (lower = higher priority)
     TYPE_PRIORITY = {
         "entity": 1,
+        "config": 2,
         "utils": 2,
         "controller": 3,
         "service": 4,
-        "mapper": 5,
-        "other": 6,
+        "interceptor": 5,
+        "mapper": 6,
+        "other": 7,
     }
 
-    # Classes to skip (not suitable for unit testing)
+    # Classes to skip — only skip app entry points and pure exception classes
     SKIP_PATTERNS = [
         r".*Application$",
-        r".*Config$",
-        r".*Configuration$",
-        r".*Constants$",
         r".*Exception$",
-        r".*Interceptor$",
     ]
 
     def __init__(self, project_root: str, java_project: str = "dianping"):
@@ -69,14 +67,16 @@ class Orchestrator:
             return "service"
         if "service" in pkg_lower:
             return "service"
+        if "interceptor" in pkg_lower or "interceptor" in name_lower or "filter" in pkg_lower:
+            return "interceptor"
+        if "config" in pkg_lower or "configuration" in pkg_lower:
+            return "config"
         if "mapper" in pkg_lower or "dao" in pkg_lower or "repository" in pkg_lower:
             return "mapper"
         if "entity" in pkg_lower or "model" in pkg_lower or "domain" in pkg_lower or "dto" in pkg_lower:
             return "entity"
         if "utils" in pkg_lower or "util" in pkg_lower or "helper" in pkg_lower:
             return "utils"
-        if "config" in pkg_lower:
-            return "other"
         return "other"
 
     def extract_methods(self, filepath: str) -> List[Dict[str, str]]:
@@ -88,44 +88,95 @@ class Orchestrator:
         except (IOError, UnicodeDecodeError):
             return methods
 
-        # Match public methods (simplified regex - handles common patterns)
+        class_name = os.path.splitext(os.path.basename(filepath))[0]
+
+        # Remove single-line comments and strings to avoid false matches
+        cleaned = re.sub(r'//[^\n]*', '', content)
+        cleaned = re.sub(r'"[^"]*"', '""', cleaned)
+
+        # Match public methods including preceding annotations on separate lines
         pattern = re.compile(
-            r'^\s*public\s+(?:static\s+)?(?:final\s+)?'
-            r'(?:@\w+\s*)*'  # annotations on separate lines before method
-            r'(?:<[^>]+>\s*)?'  # generic return type
-            r'(\w+(?:\[\])?(?:<[^>]+>)?)\s+'  # return type
+            r'(?:@\w+(?:\([^)]*\))?\s*\n\s*)*'  # annotations (multi-line)
+            r'public\s+(?:static\s+)?(?:final\s+)?'
+            r'(?:abstract\s+)?(?:synchronized\s+)?'
+            r'(?:<[^>]*>\s+)?'  # generic type param
+            r'([\w.<>\[\],\s]+?)\s+'  # return type
             r'(\w+)\s*'  # method name
-            r'\((.*?)\)',  # parameters
+            r'\((.*?)\)',  # parameters (non-greedy)
+            re.MULTILINE | re.DOTALL
+        )
+
+        # Backward pass to fix: DOTALL makes . match newlines in params too broadly,
+        # so we use a two-pass approach: find method signatures line-oriented first
+        line_pattern = re.compile(
+            r'^\s*public\s+(?:static\s+)?(?:final\s+)?'
+            r'(?:abstract\s+)?(?:synchronized\s+)?'
+            r'([\w\s.<>\[\],]+?)\s+'  # return type
+            r'(\w+)\s*'  # method name
+            r'\(',  # opening paren
             re.MULTILINE
         )
 
-        for match in pattern.finditer(content):
-            return_type = match.group(1)
+        for match in line_pattern.finditer(cleaned):
+            return_type = match.group(1).strip()
             method_name = match.group(2)
-            params = match.group(3)
 
-            # Skip constructors (method name same as class)
-            # We detect this by checking if the line has no return type before the name
-            line_start = max(0, match.start() - 200)
-            line_context = content[line_start:match.start()]
-            if f"class " in line_context.split("\n")[-1] if "\n" in line_context else False:
+            # Skip constructors
+            if method_name == class_name:
                 continue
 
+            # Skip getters/setters for entities (optional: reduce noise)
+            if self._is_trivial_getter_setter(method_name, cleaned, match.end()):
+                continue
+
+            # Extract parameters by finding closing paren
+            paren_start = match.end() - 1  # the '('
+            paren_depth = 0
+            params_end = paren_start
+            for i in range(paren_start, min(paren_start + 2000, len(cleaned))):
+                if cleaned[i] == '(':
+                    paren_depth += 1
+                elif cleaned[i] == ')':
+                    paren_depth -= 1
+                    if paren_depth == 0:
+                        params_end = i
+                        break
+
+            params = cleaned[paren_start + 1:params_end].strip()
+            # Collapse multi-line params to single line for signature
+            params_compact = re.sub(r'\s+', ' ', params)
+
             # Determine complexity
-            method_body_start = match.end()
-            complexity = self._estimate_complexity(content, method_body_start, method_name)
+            method_body_start = params_end + 1
+            complexity = self._estimate_complexity(cleaned, method_body_start, method_name)
 
             test_method_name = self._generate_test_method_name(method_name, return_type)
 
             methods.append({
                 "name": method_name,
-                "signature": f"public {return_type} {method_name}({params})",
+                "signature": f"public {return_type} {method_name}({params_compact})",
                 "test_status": "pending",
                 "test_method": test_method_name,
                 "complexity": complexity,
             })
 
         return methods
+
+    def _is_trivial_getter_setter(self, method_name: str, content: str, pos: int) -> bool:
+        """Detect if a method is a trivial getter/setter to optionally skip."""
+        if not (method_name.startswith("get") or method_name.startswith("set")
+                or method_name.startswith("is")):
+            return False
+        # Look ahead for simple one-liner body
+        body_start = content.find("{", pos)
+        body_end = content.find("}", body_start) if body_start != -1 else -1
+        if body_start != -1 and body_end != -1:
+            body = content[body_start:body_end]
+            # Simple getter: return this.field;
+            # Simple setter: this.field = field;
+            if len(body.split("\n")) <= 2 and ("return this." in body or "this." in body):
+                return True
+        return False
 
     def _estimate_complexity(self, content: str, start: int, method_name: str) -> str:
         """Estimate method complexity from body size and branching."""
@@ -264,75 +315,151 @@ class Orchestrator:
 
     def run_phase2(self) -> Dict[str, Any]:
         """
-        Execute Phase 2: Dispatch Subagents.
-        Builds prompts for the next batch of pending methods.
+        Execute Phase 2: Dispatch Subagents (per-class mode).
 
-        In actual Claude Code usage, the orchestrator (this Claude Code session)
-        would use the Agent tool to dispatch these subagents.
-
-        This method prepares the batch and returns the prompts that
-        the orchestrator should dispatch.
+        Each subagent handles ONE class with ALL its pending methods.
+        The subagent iterates until coverage targets are met or all
+        branches are exhausted.
         """
         print("=" * 60)
-        print("Phase 2: Dispatch Subagents")
+        print("Phase 2: Dispatch Subagents (per-class)")
         print("=" * 60)
 
-        pending = self.state.get_pending_methods()
-        if not pending:
-            print("No pending methods. Moving to evaluation.")
+        pending_classes = self.state.get_pending_methods_by_class()
+        if not pending_classes:
+            print("No classes with pending methods. Moving to evaluation.")
             return self.state.get_summary()
 
-        print(f"Pending methods: {len(pending)}")
-
-        # Select batch (different classes only)
-        batch = self.dispatcher.get_parallel_batch(
-            pending, batch_size=self.state.load_test_plan().get("batch_size", 5)
+        total_pending = sum(
+            sum(1 for m in c["class_methods"]
+                if m["test_status"] == "pending")
+            for c in pending_classes
         )
-        print(f"Batch size: {len(batch)}")
+        print(f"Classes with pending methods: {len(pending_classes)}")
+        print(f"Total pending methods: {total_pending}")
 
-        batch_class_names = list(set(m["class_name"] for m in batch))
+        # Select batch (one subagent per class)
+        plan = self.state.load_test_plan()
+        batch_size = plan.get("batch_size", 5)
+        batch = self.dispatcher.get_parallel_batch(
+            pending_classes, batch_size=batch_size
+        )
+
+        # Prioritize low-coverage classes
+        low_cov = self.state.get_low_coverage_methods()
+        if low_cov:
+            low_cov_classes = set(m["class_name"] for m in low_cov)
+            batch_low = [c for c in batch
+                        if c["class_name"] in low_cov_classes]
+            batch_other = [c for c in batch
+                          if c["class_name"] not in low_cov_classes]
+            batch = batch_low + batch_other
+
+        print(f"Batch: {len(batch)} classes")
+        for i, c in enumerate(batch):
+            pending_count = sum(1 for m in c["class_methods"]
+                              if m["test_status"] == "pending")
+            print(f"  [{i+1}] {c['class_name']} ({c['type']}, "
+                  f"{c['complexity']}) — {pending_count} methods")
+
+        batch_class_names = [c["class_name"] for c in batch]
         self.state.set_current_batch(batch_class_names)
 
-        # Build prompts for each subagent
+        # Build one prompt per class
         prompts = []
-        for task in batch:
-            self.state.mark_method_in_progress(task["class_name"], task["method_name"])
-            prompt = self.dispatcher.build_subagent_prompt(task)
+        for class_task in batch:
+            # Mark class and all its pending methods as in_progress
+            self.state.mark_class_in_progress(class_task["class_name"])
+            for m in class_task["class_methods"]:
+                if m["test_status"] == "pending":
+                    self.state.mark_method_in_progress(
+                        class_task["class_name"], m["name"])
+
+            attempt = self.dispatcher.retry_count.get(
+                class_task["class_name"], 0) + 1
+            class_task["attempt"] = attempt
+            self.dispatcher.record_attempt(class_task["class_name"])
+
+            prompt = self.dispatcher.build_subagent_prompt(class_task)
             prompts.append({
-                "task": task,
+                "task": class_task,
                 "prompt": prompt,
             })
 
-        print("Subagent prompts ready:")
+        print(f"\nSubagent prompts ready: {len(prompts)} (one per class)")
         for i, p in enumerate(prompts):
             task = p["task"]
-            print(f"  [{i+1}] {task['class_name']}.{task['method_name']} "
-                  f"→ {task['test_method']}")
+            print(f"  [{i+1}] {task['class_name']} "
+                  f"(attempt {task.get('attempt', 1)})")
 
         return {
             "phase": "generate",
             "batch": batch,
             "prompts": prompts,
-            "pending_remaining": len(pending) - len(batch),
+            "classes_remaining": len(pending_classes) - len(batch),
         }
 
     def apply_batch_results(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Apply subagent results to state files."""
+        """Apply per-class subagent results (each may contain multiple test methods)."""
         print("\nApplying batch results...")
 
         for r in results:
             class_name = r.get("class_name", "")
-            method_name = r.get("method_name", "")
             status = r.get("status", "fail")
+            class_cov = r.get("class_coverage", {})
+            line_cov = class_cov.get("line_coverage", 0)
+            branch_cov = class_cov.get("branch_coverage", 0)
 
-            if status == "pass":
-                self.state.mark_method_pass(class_name, method_name)
-            else:
-                error = r.get("error", "unknown")
-                self.state.mark_method_fail(class_name, method_name, error)
-                self.state.record_failed_method(class_name, method_name, error)
+            if status == "class_complete":
+                # All coverage targets met for this class
+                self.state.mark_class_met_targets(
+                    class_name, line_cov, branch_cov)
+                for tr in r.get("test_results", []):
+                    if tr.get("status") == "pass":
+                        self.state.mark_method_pass(
+                            class_name, tr["method_name"])
+                    elif tr.get("status") == "fail":
+                        self.state.mark_method_fail(
+                            class_name, tr["method_name"],
+                            tr.get("error", ""))
+                self.dispatcher.reset_retry(class_name)
+                print(f"  COMPLETE: {class_name} "
+                      f"(L:{line_cov:.1%} B:{branch_cov:.1%}) "
+                      f"tests={len(r.get('test_results', []))} "
+                      f"iters={r.get('iterations', 0)}")
 
-            print(f"  {status.upper()}: {class_name}.{method_name}")
+            elif status == "class_partial":
+                # Made progress but targets not met
+                self.state.mark_class_exhausted(
+                    class_name, line_cov, branch_cov)
+                for tr in r.get("test_results", []):
+                    if tr.get("status") == "pass":
+                        self.state.mark_method_pass(
+                            class_name, tr["method_name"])
+                    elif tr.get("status") == "fail":
+                        self.state.mark_method_fail(
+                            class_name, tr["method_name"],
+                            tr.get("error", ""))
+                self.dispatcher.reset_retry(class_name)
+                print(f"  PARTIAL: {class_name} "
+                      f"(L:{line_cov:.1%} B:{branch_cov:.1%}) "
+                      f"reason={r.get('stop_reason', '?')} "
+                      f"uncovered={len(r.get('uncovered_branches', []))}")
+
+            else:  # "fail"
+                error = r.get("error", "unknown error")
+                self.state.mark_class_failed(class_name, error)
+                self.state.reset_class_in_progress(class_name)
+                self.state.record_failed_method(
+                    class_name, "", f"[CLASS FAIL] {error}")
+                print(f"  FAILED: {class_name} — {error[:120]}")
+
+            # Record per-method coverage for tracking
+            for tr in r.get("test_results", []):
+                if tr.get("status") == "pass":
+                    self.state.record_method_coverage(
+                        class_name, tr["method_name"],
+                        line_cov, branch_cov)
 
         # Update progress
         iteration = self.state.increment_iteration()
@@ -366,6 +493,9 @@ class Orchestrator:
             "test_result": test_result,
             "sprint_status": "pass" if self._check_targets(coverage_data) else "rework",
         })
+
+        # Mark evaluation complete for partial evaluation tracking
+        self.state.mark_evaluation_complete()
 
         # Print results
         cov = coverage_data
@@ -448,34 +578,87 @@ class Orchestrator:
                     "error": str(e)}
 
     def _parse_jacoco_csv(self, csv_path: str) -> Dict[str, float]:
-        """Parse JaCoCo CSV report to get overall coverage."""
+        """Parse JaCoCo CSV report to get overall coverage.
+
+        JaCoCo CSV has one header row then one row per class — no total row.
+        We sum all class rows to compute overall coverage.
+        """
         with open(csv_path, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
         if len(lines) < 2:
             return {"line": 0.0, "branch": 0.0, "method": 0.0}
 
-        # The last line is the total
         header = lines[0].strip().split(",")
-        total = lines[-1].strip().split(",")
-
-        # Find column indices
         col_map = {h.lower(): i for i, h in enumerate(header)}
 
-        def get_val(prefix):
-            missed = int(total[col_map.get(f"{prefix}_missed", 0)])
-            covered = int(total[col_map.get(f"{prefix}_covered", 0)])
-            total_count = missed + covered
-            return covered / total_count if total_count > 0 else 0.0
+        # Sum across all class rows (no total row in JaCoCo CSV)
+        totals = {"LINE_MISSED": 0, "LINE_COVERED": 0,
+                  "BRANCH_MISSED": 0, "BRANCH_COVERED": 0,
+                  "METHOD_MISSED": 0, "METHOD_COVERED": 0}
+        per_class = []
 
+        for line in lines[1:]:
+            cols = line.strip().split(",")
+            if len(cols) < len(header):
+                continue
+
+            lm = int(cols[col_map["line_missed"]])
+            lc = int(cols[col_map["line_covered"]])
+            bm = int(cols[col_map["branch_missed"]])
+            bc = int(cols[col_map["branch_covered"]])
+            mm = int(cols[col_map["method_missed"]])
+            mc = int(cols[col_map["method_covered"]])
+
+            totals["LINE_MISSED"] += lm
+            totals["LINE_COVERED"] += lc
+            totals["BRANCH_MISSED"] += bm
+            totals["BRANCH_COVERED"] += bc
+            totals["METHOD_MISSED"] += mm
+            totals["METHOD_COVERED"] += mc
+
+            line_total = lm + lc
+            branch_total = bm + bc
+            per_class.append({
+                "class": cols[col_map["class"]],
+                "line_coverage": round(lc / line_total, 4) if line_total > 0 else 0.0,
+                "branch_coverage": round(bc / branch_total, 4) if branch_total > 0 else 0.0,
+            })
+
+        tl = totals
         return {
-            "line": get_val("instruction"),
-            "branch": get_val("branch"),
-            "method": get_val("method"),
+            "line": tl["LINE_COVERED"] / (tl["LINE_MISSED"] + tl["LINE_COVERED"])
+                    if (tl["LINE_MISSED"] + tl["LINE_COVERED"]) > 0 else 0.0,
+            "branch": tl["BRANCH_COVERED"] / (tl["BRANCH_MISSED"] + tl["BRANCH_COVERED"])
+                      if (tl["BRANCH_MISSED"] + tl["BRANCH_COVERED"]) > 0 else 0.0,
+            "method": tl["METHOD_COVERED"] / (tl["METHOD_MISSED"] + tl["METHOD_COVERED"])
+                      if (tl["METHOD_MISSED"] + tl["METHOD_COVERED"]) > 0 else 0.0,
+            "per_class": per_class,
         }
 
     def _check_targets(self, coverage: Dict[str, float]) -> bool:
-        return coverage.get("line", 0) >= 0.70 and coverage.get("branch", 0) >= 0.60
+        plan = self.state.load_test_plan()
+        targets = plan.get("coverage_target", {"line": 0.70, "branch": 0.60})
+        return coverage.get("line", 0) >= targets.get("line", 0.70) and \
+               coverage.get("branch", 0) >= targets.get("branch", 0.60)
+
+    def get_low_coverage_classes(self, threshold: float = 0.50) -> List[Dict[str, Any]]:
+        """Identify classes with coverage below threshold for prioritization."""
+        coverage_data = self.state.load_coverage_report()
+        per_class = coverage_data.get("overall_coverage", {}).get("per_class", [])
+        low = [c for c in per_class if c.get("line_coverage", 0) < threshold]
+        low.sort(key=lambda c: c.get("line_coverage", 0))
+        return low
+
+    def get_coverage_gap(self) -> Dict[str, float]:
+        """Calculate how far we are from targets."""
+        plan = self.state.load_test_plan()
+        targets = plan.get("coverage_target", {"line": 0.70, "branch": 0.60})
+        current = self.state.load_coverage_report().get("overall_coverage", {})
+        return {
+            "line_gap": max(0, targets.get("line", 0.70) - current.get("line", 0)),
+            "branch_gap": max(0, targets.get("branch", 0.60) - current.get("branch", 0)),
+        }
 
     # ==================== Main Loop ====================
 

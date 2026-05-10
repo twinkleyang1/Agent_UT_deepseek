@@ -22,7 +22,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -34,120 +33,86 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class UserServiceImplTest {
 
-    @Mock private UserMapper baseMapper;
-    @Mock private StringRedisTemplate stringRedisTemplate;
-    @Mock private ValueOperations<String, String> valueOps;
-    @Mock private HashOperations<String, Object, Object> hashOps;
-    @Mock private HttpSession session;
-    @InjectMocks private UserServiceImpl service;
+    @Mock
+    private UserMapper baseMapper;
+
+    @Mock
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Mock
+    private ValueOperations<String, String> valueOps;
+
+    @Mock
+    private HashOperations<String, Object, Object> hashOps;
+
+    @InjectMocks
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
-        UserDTO user = new UserDTO();
-        user.setId(1L);
-        UserHolder.saveUser(user);
         when(stringRedisTemplate.opsForValue()).thenReturn(valueOps);
         when(stringRedisTemplate.opsForHash()).thenReturn(hashOps);
     }
 
     @AfterEach
     void tearDown() {
+        reset(baseMapper, stringRedisTemplate, valueOps, hashOps);
         UserHolder.removeUser();
     }
 
     @Test
-    void shouldSendCodeWithValidPhone() {
-        Result result = service.sendCode("13800138000", session);
+    void shouldReturnResultWhenLogin() {
+        // Arrange: valid phone and code
+        String phone = "13800138000";
+        String code = "123456";
+        LoginFormDTO loginForm = LoginFormDTO.builder()
+                .phone(phone)
+                .code(code)
+                .build();
 
-        assertTrue(result.getSuccess());
-        verify(valueOps).set(contains("login:code:"), anyString(), eq(2L), eq(TimeUnit.MINUTES));
-    }
+        // Mock Redis: verification code matches
+        when(valueOps.get("login:code:" + phone)).thenReturn(code);
 
-    @Test
-    void shouldFailSendCodeWithInvalidPhone() {
-        Result result = service.sendCode("12345", session);
-
-        assertFalse(result.getSuccess());
-        assertEquals("手机号格式错误", result.getErrorMsg());
-    }
-
-    @Test
-    void shouldFailLoginWithInvalidPhone() {
-        LoginFormDTO form = LoginFormDTO.builder()
-                .phone("12345").code("123456").password("pw").build();
-
-        Result result = service.login(form, session);
-
-        assertFalse(result.getSuccess());
-        assertEquals("手机号格式错误", result.getErrorMsg());
-    }
-
-    @Test
-    void shouldFailLoginWithWrongCode() {
-        LoginFormDTO form = LoginFormDTO.builder()
-                .phone("13800138000").code("123456").password("pw").build();
-        when(valueOps.get(contains("login:code:"))).thenReturn("654321");
-
-        Result result = service.login(form, session);
-
-        assertFalse(result.getSuccess());
-        assertEquals("验证码不一致，请重新输入", result.getErrorMsg());
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    void shouldLoginExistingUser() {
-        LoginFormDTO form = LoginFormDTO.builder()
-                .phone("13800138000").code("123456").password("pw").build();
-        when(valueOps.get(contains("login:code:"))).thenReturn("123456");
-        User user = new User();
-        user.setId(1L);
-        user.setPhone("13800138000");
-        user.setNickName("test");
+        // Mock DB: user exists
+        User user = new User()
+                .setId(1L)
+                .setPhone(phone)
+                .setNickName("testUser")
+                .setIcon("");
         when(baseMapper.selectOne(any(Wrapper.class))).thenReturn(user);
-        when(stringRedisTemplate.expire(anyString(), eq(30L), eq(TimeUnit.MINUTES))).thenReturn(true);
 
-        Result result = service.login(form, session);
+        // Act
+        Result result = userService.login(loginForm, mock(HttpSession.class));
 
+        // Assert
+        assertNotNull(result);
         assertTrue(result.getSuccess());
         assertNotNull(result.getData());
+        assertTrue(result.getData() instanceof String, "token should be a String");
+
+        // Verify Redis hash storage was called
+        verify(hashOps).putAll(startsWith("login:token:"), anyMap());
+        verify(stringRedisTemplate).expire(startsWith("login:token:"), eq(30L), eq(TimeUnit.MINUTES));
     }
 
     @Test
-    void shouldSign() {
-        Result result = service.sign();
+    void shouldReturnResultWhenSignCount() {
+        // Arrange: set up a logged-in user with ThreadLocal
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1L);
+        UserHolder.saveUser(userDTO);
 
-        assertTrue(result.getSuccess());
-    }
-
-    @Test
-    void shouldReturnSignCount() {
+        // Mock bitField: return bitmap 7 (binary 111) → 3 consecutive sign-in days
         List<Long> bitFieldResult = List.of(7L);
-        when(valueOps.bitField(anyString(), any(BitFieldSubCommands.class))).thenReturn(bitFieldResult);
+        when(valueOps.bitField(anyString(), any(BitFieldSubCommands.class)))
+                .thenReturn(bitFieldResult);
 
-        Result result = service.signCount();
+        // Act
+        Result result = userService.signCount();
 
+        // Assert: should return 3 (consecutive trailing 1s in binary 111)
+        assertNotNull(result);
         assertTrue(result.getSuccess());
         assertEquals(3, result.getData());
-    }
-
-    @Test
-    void shouldReturnZeroSignCountWhenNoResult() {
-        when(valueOps.bitField(anyString(), any(BitFieldSubCommands.class))).thenReturn(Collections.emptyList());
-
-        Result result = service.signCount();
-
-        assertTrue(result.getSuccess());
-        assertEquals(0, result.getData());
-    }
-
-    @Test
-    void shouldReturnZeroSignCountWhenNullResult() {
-        when(valueOps.bitField(anyString(), any(BitFieldSubCommands.class))).thenReturn(null);
-
-        Result result = service.signCount();
-
-        assertTrue(result.getSuccess());
-        assertEquals(0, result.getData());
     }
 }

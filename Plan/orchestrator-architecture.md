@@ -4,22 +4,22 @@
 
 ### Problem Statement
 
-传统的 Java UT 生成依赖容器（Redis/MySQL/Kafka）或 Spring Boot Test 上下文，导致测试受限于环境。本方案设计一个**纯容器无关**的多 Agent 系统，通过全面 Mock 外部依赖，让 UT 测试在任何环境（CI/本地）都能运行。
+Traditional Java UT generation depends on containers (Redis/MySQL/Kafka) or Spring Boot Test context, limiting where tests can run. This plan designs a **container-free** multi-agent system that mocks ALL external dependencies with Mockito, making UT tests runnable anywhere (CI/local, no Docker required).
 
 ### Solution
 
-**Orchestrator + Subagents 架构**，完全基于 Claude Code 内置 Agent 工具：
+**Orchestrator + Subagent architecture**, fully based on Claude Code's built-in Agent tool:
 
-- **Orchestrator**：长期运行的编排者 Agent，扫描项目、规划测试、派发 subagent、收集结果、评估覆盖率
-- **Subagent**：一次性 Agent，每次只为一个方法编写一个测试函数，写完立即运行 `mvn test -Dtest=...` 验证，返回结果
+- **Orchestrator**: Long-running coordinator agent that scans projects, plans tests, dispatches subagents, collects results, and evaluates coverage
+- **Subagent**: One-shot agent that writes ONE test method, runs `mvn test -Dtest=...` to verify, and returns results
 
-**核心特点**：
-- 一个 Subagent = 一个测试方法（函数级粒度）
-- Subagent 自己写代码 + 运行测试验证
-- Orchestrator 并行派发 Subagent（不同类的方法互不冲突）
-- **零容器依赖**：全部外部依赖（DB/Cache/MQ/HTTP）通过 Mockito 模拟
-- 完全基于 Claude Code 内置机制
-- **适配任意 Java 项目**（Spring Boot / MyBatis-Plus / JPA / Redis / Kafka 等）
+**Core characteristics**:
+- One Subagent = One test method (method-level granularity)
+- Subagent writes code + runs test verification itself
+- Orchestrator dispatches subagents in parallel (different classes = no file conflicts)
+- **Zero container dependencies**: All external deps (DB/Cache/MQ/HTTP) mocked via Mockito
+- Fully based on Claude Code built-in mechanisms
+- **Adaptable to any Java project** (Spring Boot / MyBatis-Plus / JPA / Redis / Kafka / etc.)
 
 ---
 
@@ -27,7 +27,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                          Orchestrator (长期运行)                          │
+│                          Orchestrator (Long-Running)                      │
 │                                                                          │
 │  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐                 │
 │  │ Phase 1      │   │ Phase 2      │   │ Phase 3      │                 │
@@ -37,123 +37,166 @@
 │         │                  │                  │           │              │
 │         ▼                  ▼                  ▼           │              │
 │  ┌──────────────┐   ┌──────────────────┐   ┌──────────┐  │              │
-│  │扫描 src/main │   │ Agent tool 并行   │   │ mvn test │  │              │
-│  │分类 + 方法列表│   │派发 N 个 Subagent │   │ jacoco   │  │              │
-│  │→ class_list │   │每个写1个测试方法   │   │ 检查覆盖率│──┘              │
-│  │→ test_plan  │   │每个自测返回结果    │   │ 未达标?   │  继续循环       │
-│  └──────────────┘   └──────────────────┘   └──────────┘                 │
+│  │Scan src/main │   │ Agent tool parallel│  │ mvn test │  │              │
+│  │Classify +    │   │Dispatch N Subagents│  │ jacoco   │  │              │
+│  │extract methods│  │Each writes 1 test  │  │ Check cov│──┘              │
+│  │→ class_list │   │Each self-tests     │   │ Not met? │  continue loop │
+│  │→ test_plan  │   │Returns result      │   └──────────┘                 │
+│  └──────────────┘   └──────────────────┘                                 │
 │                                                                          │
-│                          State Files (shared/)                            │
+│                       State Files (shared/)                               │
 │  ┌────────────────────────────────────────────────────────────────────┐  │
 │  │ class_list.json │ test_plan.json │ progress.txt │ coverage_report │  │
 │  └────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────┘
 
-Subagent (一次性):
+Subagent (One-Shot):
   ┌──────────────────────────────────────────────┐
-  │  输入: 类名 + 方法名 + 方法签名 + 源代码      │
+  │  Input: className + methodName + signature   │
+  │         + source code path + type + complexity│
   │                                              │
-  │  1. 读取目标方法的源代码                      │
-  │  2. 分析逻辑，设计测试用例 (AAA)              │
-  │  3. 编写 JUnit 5 测试方法（Mock 所有外部依赖）│
-  │  4. 运行 mvn test -Dtest=Class#method 验证    │
-  │  5. 返回结果: {pass/fail, error_msg, time}    │
+  │  1. Read target method source code            │
+  │  2. Analyze logic, design test case (AAA)     │
+  │  3. Write JUnit 5 test method (Mock all deps) │
+  │  4. Run mvn test -Dtest=Class#method verify   │
+  │  5. Return: {pass/fail, branches, error, time}│
   └──────────────────────────────────────────────┘
 ```
 
 ---
 
-## Container-Free Mock Strategy (容器无关 Mock 策略)
+## Container-Free Mock Strategy
 
-### 核心原则
+### Core Principle
 
-**绝不依赖容器或外部环境**。所有测试必须是纯单元测试，无需启动 Redis/MySQL/Docker/Kafka。
+**Never depend on containers or external environments.** All tests are pure unit tests — no Redis/MySQL/Docker/Kafka required.
 
-### 通用 Mock 模式
+### Universal Mock Patterns
 
-#### ORM 层 Mock
+#### ORM Layer Mock
 
-| 框架 | 依赖类型 | Mock 方式 |
-|------|---------|----------|
-| MyBatis-Plus ServiceImpl | `baseMapper` 字段 | `@Mock Mapper` + `@InjectMocks ServiceImpl`，Mock `baseMapper.selectOne/selectList/insert/update/delete` |
-| MyBatis Mapper | `@Autowired Mapper` | `@Mock Mapper`，Mock 自定义 SQL 方法 |
-| Spring Data JPA | `JpaRepository` | `@Mock Repository`，Mock `findById/save/findAll` |
+| Framework | Dependency Type | Mock Approach |
+|-----------|----------------|---------------|
+| MyBatis-Plus ServiceImpl | `baseMapper` field | `@Mock Mapper` + `@InjectMocks ServiceImpl`, mock `baseMapper.selectOne/selectList/selectPage/update/updateById/insert/delete` |
+| MyBatis Mapper | `@Autowired Mapper` | `@Mock Mapper`, mock custom SQL methods |
+| Spring Data JPA | `JpaRepository` | `@Mock Repository`, mock `findById/save/findAll` |
 | Hibernate | `SessionFactory` | `@Mock SessionFactory` + `@Mock Session` |
-| JDBC Template | `JdbcTemplate` | `@Mock JdbcTemplate`，Mock `query/update` |
+| JDBC Template | `JdbcTemplate` | `@Mock JdbcTemplate`, mock `query/update` |
 
-**MyBatis-Plus 链式调用 Mock 原理**：
+**MyBatis-Plus chain call mock principle**:
 ```
 query().eq("field", val).one()
   → LambdaQueryChainWrapper(baseMapper)
-  → .eq(...) 返回 this
-  → .one() 调用 baseMapper.selectOne(wrapper)
-  → Mock baseMapper.selectOne(any()) 即可拦截
+  → .eq(...) returns this
+  → .one() calls baseMapper.selectOne(wrapper)
+  → Mock baseMapper.selectOne(any()) intercepts it
+
+Chain → baseMapper mapping:
+  query().eq().one()              → baseMapper.selectOne(any(Wrapper.class))
+  query().eq().list()             → baseMapper.selectList(any(Wrapper.class))
+  query().orderByDesc().page()    → baseMapper.selectPage(any(Page.class), any(Wrapper.class))
+  lambdaQuery().eq().one()        → baseMapper.selectOne(any(Wrapper.class))
+  lambdaUpdate().setSql().eq().update() → baseMapper.update(null, any(Wrapper.class))
+  update().setSql().eq().update() → baseMapper.update(null, any(Wrapper.class))
+  lambdaUpdate().set().eq().update()    → baseMapper.update(entity, any(Wrapper.class))
 ```
 
-#### Cache 层 Mock
+#### Cache Layer Mock
 
-| 框架 | Mock 方式 |
-|------|----------|
-| Spring Redis `StringRedisTemplate` | `@Mock StringRedisTemplate` + `mock(ValueOperations.class)` / `mock(ListOperations.class)` / `mock(HashOperations.class)` / `mock(ZSetOperations.class)` / `mock(SetOperations.class)` |
-| Spring Redis `RedisTemplate<K,V>` | 同上，根据实际使用的 ops 类型 mock |
-| Caffeine `Cache` | `@Mock Cache<K,V>`，Mock `get/put/invalidate` |
+| Framework | Mock Approach |
+|-----------|--------------|
+| Spring Redis `StringRedisTemplate` | `@Mock StringRedisTemplate` + mock each ops: `ValueOperations`, `SetOperations`, `ZSetOperations`, `HashOperations`, `ListOperations`, `GeoOperations` |
+| Spring Redis `RedisTemplate<K,V>` | Same pattern, mock ops types used by the code |
+| Caffeine `Cache` | `@Mock Cache<K,V>`, mock `get/put/invalidate` |
 | Ehcache | `@Mock CacheManager` + `@Mock Cache` |
 
-#### MQ 层 Mock
+#### MQ Layer Mock
 
-| 框架 | Mock 方式 |
-|------|----------|
-| RabbitMQ `RabbitTemplate` | `@Mock RabbitTemplate`，Mock `convertAndSend/receiveAndConvert` |
-| Kafka `KafkaTemplate` | `@Mock KafkaTemplate`，Mock `send` |
-| RocketMQ `RocketMQTemplate` | `@Mock RocketMQTemplate`，Mock `syncSend` |
+| Framework | Mock Approach |
+|-----------|--------------|
+| RabbitMQ `RabbitTemplate` | `@Mock RabbitTemplate`, mock `convertAndSend/receiveAndConvert` |
+| Kafka `KafkaTemplate` | `@Mock KafkaTemplate`, mock `send` |
+| RocketMQ `RocketMQTemplate` | `@Mock RocketMQTemplate`, mock `syncSend` |
 
-#### HTTP 客户端 Mock
+#### HTTP Client Mock
 
-| 框架 | Mock 方式 |
-|------|----------|
-| `RestTemplate` | `@Mock RestTemplate`，Mock `getForObject/postForEntity` |
+| Framework | Mock Approach |
+|-----------|--------------|
+| `RestTemplate` | `@Mock RestTemplate`, mock `getForObject/postForEntity` |
 | `WebClient` | `@Mock WebClient` + mock chain |
-| OpenFeign `@FeignClient` | `@MockBean FeignClient` 或 Mock Service 层 |
+| OpenFeign `@FeignClient` | `@MockBean FeignClient` or mock service layer |
 | OkHttp `OkHttpClient` | `@Mock OkHttpClient` |
 
-#### 其他常见依赖 Mock
+#### Other Common Dependency Mocks
 
-| 依赖 | Mock 方式 |
-|------|----------|
-| ThreadLocal 工具类 (如 UserHolder) | `@BeforeEach` 中 `set(value)`，`@AfterEach` 中 `remove()` |
-| `HttpSession` / `HttpServletRequest` | `mock(HttpSession.class)` / `mock(HttpServletRequest.class)` |
+| Dependency | Mock Approach |
+|-----------|--------------|
+| ThreadLocal utils (e.g., UserHolder) | `@BeforeEach` set value, `@AfterEach` remove |
+| `HttpSession` / `HttpServletRequest` | `MockHttpServletRequest` / `MockHttpServletResponse` from spring-test |
+| Redisson `RedissonClient` + `RLock` | `@Mock RedissonClient` + `@Mock RLock`, mock `getLock/tryLock` |
 | `MultipartFile` | `mock(MultipartFile.class)` |
-| `Clock` / `LocalDateTime.now()` | 使用固定值，不 mock（时间结果是可预测的） |
-| 文件系统操作 | Mock 或使用 `@TempDir` (JUnit 5) |
+| `Clock` / `LocalDateTime.now()` | Use fixed values (time is predictable) |
+| Filesystem operations | Mock or use `@TempDir` (JUnit 5) |
 
-### Controller 测试模式
+### Controller Test Pattern
 
-**不使用 `@WebMvcTest`**（会加载 Spring 上下文，触发 Redis/DB bean 初始化失败）。
+**Do NOT use `@WebMvcTest`** (loads Spring context, triggers Redis/DB bean initialization failures).
 
-改用 `ReflectionTestUtils.setField()` 注入 Mock：
+Use `@InjectMocks` with `@Mock` services instead:
 
 ```java
 @ExtendWith(MockitoExtension.class)
 class XxxControllerTest {
-
-    @Mock private XxxService xxxService;  // Controller 依赖的 Service
-    @Mock private YyyService yyyService;  // Controller 依赖的另一个 Service
-
-    private XxxController controller;
-
-    @BeforeEach
-    void setUp() {
-        controller = new XxxController();
-        ReflectionTestUtils.setField(controller, "xxxService", xxxService);
-        ReflectionTestUtils.setField(controller, "yyyService", yyyService);
-    }
+    @Mock private XxxService xxxService;
+    @Mock private YyyService yyyService;
+    @InjectMocks private XxxController controller;
 
     @Test
-    void shouldReturnExpectedWhenCondition() {
-        when(xxxService.method()).thenReturn(expectedResult);
-        Result result = controller.endpoint();
-        assertNotNull(result);
+    void shouldReturnOkWhenCondition() {
+        when(xxxService.method(args)).thenReturn(Result.ok());
+        Result result = controller.endpoint(args);
+        assertTrue(result.getSuccess());
     }
+}
+```
+
+### Config Class Test Pattern
+
+```java
+@Test
+void shouldCreateBean() {
+    MyConfig config = new MyConfig();
+    SomeBean bean = config.someBean();
+    assertNotNull(bean);
+    assertEquals("expected", bean.getProperty());
+}
+```
+
+### Interceptor Test Pattern
+
+```java
+@Mock private StringRedisTemplate stringRedisTemplate;
+@Mock private HashOperations<String, Object, Object> hashOps;
+private RefreshTokenInterceptor interceptor;
+private MockHttpServletRequest request;
+private MockHttpServletResponse response;
+
+@BeforeEach
+void setUp() {
+    interceptor = new RefreshTokenInterceptor(stringRedisTemplate);
+    request = new MockHttpServletRequest();
+    response = new MockHttpServletResponse();
+    when(stringRedisTemplate.opsForHash()).thenReturn(hashOps);
+}
+
+@AfterEach
+void tearDown() {
+    UserHolder.removeUser();
+}
+
+@Test
+void shouldAllowWhenNoToken() throws Exception {
+    assertTrue(interceptor.preHandle(request, response, null));
 }
 ```
 
@@ -161,16 +204,18 @@ class XxxControllerTest {
 
 ## Three-Phase Lifecycle
 
-### Phase 1: Scan & Plan (扫描与规划)
+### Phase 1: Scan & Plan
 
-1. 扫描 `{PROJECT}/src/main/java/` 下所有 `.java` 文件
-2. 按类型分类：`service/controller/repository/entity/utils/config/other`
-3. 对每个类，提取所有 public 方法（方法签名、参数、返回类型）
-4. 生成 `shared/class_list.json`（方法级粒度）
-5. 生成 `shared/test_plan.json`
-6. 生成 `shared/progress.txt`
+1. Scan all `.java` files under `{PROJECT}/src/main/java/`
+2. Classify by type: `service/controller/mapper/entity/utils/config/interceptor/other`
+3. For each class, extract all public methods (signature, params, return type)
+4. Skip trivial getters/setters and constructors
+5. Generate `shared/class_list.json` (method-level granularity)
+6. Generate `shared/test_plan.json`
+7. Generate `shared/progress.txt`
+8. Optionally: sync existing test files to mark already-tested methods
 
-**class_list.json 结构**：
+**class_list.json structure**:
 ```json
 {
   "project_path": "{PROJECT_PATH}",
@@ -180,7 +225,7 @@ class XxxControllerTest {
       "name": "ClassName",
       "package": "com.example.package",
       "path": "src/main/java/...",
-      "type": "service|controller|mapper|entity|utils|config|other",
+      "type": "service|controller|mapper|entity|utils|config|interceptor|other",
       "priority": 1,
       "test_file": "src/test/java/.../ClassNameTest.java",
       "methods": [
@@ -197,29 +242,41 @@ class XxxControllerTest {
 }
 ```
 
-### Phase 2: Dispatch Subagents (派发子代理)
+### Phase 2: Dispatch Subagents
 
-1. 从 `class_list.json` 获取 `test_status=pending` 的方法
-2. 按优先级排序，选择不同类的 3-5 个方法（避免文件冲突）
-3. 通过 Claude Code Agent 工具并行派发 Subagent
-4. 每个 Subagent 接收精确的任务描述，内含 Mock 策略指导
-5. 收集 Subagent JSON 结果，更新状态文件
+1. Get `test_status=pending` methods from `class_list.json`
+2. Sort by priority + complexity (complex first — needs more branch coverage)
+3. Select 3-5 methods from different classes (avoid file conflicts)
+4. Dispatch subagents via Claude Code Agent tool in parallel
+5. Each subagent receives:
+   - Exact method to test (class, method, signature, source path)
+   - Type-specific mock strategy guidance
+   - Branch coverage instructions
+   - Retry count (if re-attempting)
+6. Collect subagent JSON results, update state files
 
-### Phase 3: Evaluate & Loop (评估与循环)
+### Phase 3: Evaluate & Loop
 
-1. 运行 `mvn test` (全量)
-2. 运行 `mvn jacoco:report`
-3. 解析覆盖率报告 → `coverage_report.json`
-4. Line >= 70% 且 Branch >= 60% → 完成
-5. 未达标 → 分析未覆盖方法 → 回到 Phase 2
+1. Run `mvn test` (full suite)
+2. Run `mvn jacoco:report`
+3. Parse coverage report → `coverage_report.json` (overall + per-class)
+4. Line >= 70% AND Branch >= 60% → **COMPLETE**
+5. Not met → analyze low-coverage classes → back to Phase 2 with prioritized dispatch
+
+**Partial evaluation**: Trigger evaluation every ~20 new methods (not just when ALL methods are done) to enable course correction mid-run.
 
 ---
 
 ## State Files (shared/)
 
-`class_list.json` | `test_plan.json` | `progress.txt` | `coverage_report.json`
+| File | Purpose |
+|------|---------|
+| `class_list.json` | Full class + method inventory with test status |
+| `test_plan.json` | Iteration tracking, batch config, failed methods |
+| `progress.txt` | Human-readable progress log |
+| `coverage_report.json` | Overall + per-class coverage metrics |
 
-状态文件不包含任何具体项目细节，字段名称通用化。
+All state file fields are generic — no project-specific references.
 
 ---
 
@@ -227,61 +284,46 @@ class XxxControllerTest {
 
 ```
 {PROJECT_ROOT}/
-├── CLAUDE.md                          # Orchestrator 指令 (项目入口)
+├── CLAUDE.md                          # Orchestrator instructions (project entry)
 ├── Plan/
-│   └── orchestrator-architecture.md   # 本架构设计文档
+│   └── orchestrator-architecture.md   # This architecture document
 ├── Rule/
-│   ├── Java_UT_Testing_Rules.md       # Java UT 编写规范
-│   ├── Long_Running_Agent_Rules.md    # 长时间运行 Agent 规范
-│   └── subagent-guide.md             # Claude Code Subagent 使用指南
-├── src/                               # Python 编排代码
-│   ├── main.py                        # 入口 (init/status/run/loop/prompts/apply/reset)
-│   ├── orchestrator.py                # 三阶段编排逻辑
-│   ├── state_manager.py               # shared/ 状态文件管理
-│   └── subagent_dispatch.py           # Subagent prompt 生成 + 结果解析
+│   ├── Java_UT_Testing_Rules.md       # Java UT testing standards
+│   ├── Long_Running_Agent_Rules.md    # Long-running agent patterns
+│   └── subagent-guide.md             # Claude Code Subagent usage guide
+├── src/                               # Python orchestration code
+│   ├── main.py                        # Entry point (init/status/run/loop/prompts/apply/reset)
+│   ├── orchestrator.py                # Three-phase orchestration logic
+│   ├── state_manager.py               # shared/ state file management
+│   └── subagent_dispatch.py           # Subagent prompt builder + retry tracking
 ├── prompts/
-│   ├── SUBAGENT_UT_PROMPT.md          # Subagent UT 编写规范 (含 Mock 策略)
-│   └── ORCHESTRATOR_LOOP.md           # 循环迭代 prompt 模板
-├── shared/                            # 运行时状态文件
+│   ├── SUBAGENT_UT_PROMPT.md          # Subagent UT writing rules (incl. mock strategy)
+│   └── ORCHESTRATOR_LOOP.md           # Loop iteration prompt template
+├── shared/                            # Runtime state files
 │   ├── class_list.json
 │   ├── test_plan.json
 │   ├── progress.txt
 │   └── coverage_report.json
-└── {JAVA_PROJECT}/                    # 目标 Java 项目 (用户指定)
-    ├── pom.xml (或 build.gradle)
+└── {JAVA_PROJECT}/                    # Target Java project (user-specified)
+    ├── pom.xml (or build.gradle)
     └── src/main/java/
 ```
 
 ---
 
-## Dispatch Protocol
+## Subagent Dispatch Protocol
 
-### Subagent Prompt 模板（通用）
+### Prompt Template (Auto-Filled)
 
-根据目标方法自动填充 Mock 策略建议：
+The subagent prompt is built by `subagent_dispatch.py` and includes:
+- Exact target (class, method, signature, source/test paths)
+- Type-specific mock strategy based on class type (service/controller/interceptor/config/utils)
+- Branch coverage guidance based on method complexity (simple/medium/complex)
+- Retry context if re-attempting a failed method
 
-```
-你是 Java UT 编写专家。
+See `prompts/SUBAGENT_UT_PROMPT.md` for the full subagent instructions.
 
-目标类: {package}.{ClassName}
-目标方法: {methodName}({params}) → {returnType}
-
-任务:
-1. 阅读源码理解方法逻辑
-2. 分析该方法依赖了哪些外部组件：
-   - ORM 操作？→ Mock baseMapper / Repository
-   - Redis 操作？→ Mock StringRedisTemplate / RedisTemplate
-   - MQ 操作？→ Mock RabbitTemplate / KafkaTemplate
-   - HTTP 调用？→ Mock RestTemplate / WebClient
-   - 其他 Service？→ Mock 被调用的 Service
-   - ThreadLocal？→ @BeforeEach 中 set, @AfterEach 中 remove
-3. 设计 AAA 测试用例
-4. 编写 JUnit 5 + Mockito 测试方法
-5. 运行 mvn test -Dtest=ClassNameTest#testMethodName
-6. 返回 JSON: {"status": "pass|fail", ...}
-```
-
-### Subagent 返回格式
+### Subagent Return Format
 
 ```json
 {
@@ -290,29 +332,38 @@ class XxxControllerTest {
   "method_name": "methodName",
   "test_method": "testMethodName",
   "test_file": "src/test/java/.../ClassNameTest.java",
-  "error": null,
+  "branches_covered": ["branch description 1", "branch description 2"],
+  "error": "error message if failed, null if passed",
   "duration_ms": 45
 }
 ```
 
 ---
 
-## Orchestrator 启动
+## Orchestrator Startup
 
 ```bash
-cd {PROJECT_ROOT} && python src/main.py init --java-project {JAVA_PROJECT}
+cd {PROJECT_ROOT}
+python src/main.py init [--java-project {JAVA_PROJECT}] [--force]
 python src/main.py status
 python src/main.py loop --max-iterations 200
+
+# Individual commands:
+python src/main.py prompts                   # Get current batch prompts
+python src/main.py apply -f results.json     # Apply subagent results
+python src/main.py reset --force             # Reset all state
 ```
 
 ---
 
-## Verification
+## Verification Checklist
 
 ```
-□ 所有测试通过 (mvn test, 0 failures)
-□ 覆盖率达标 (Line ≥ 70%, Branch ≥ 60%)
-□ 无需 Redis/MySQL/Docker 即可运行
-□ class_list.json 所有方法 test_status = pass
-□ 适配任意 Java 项目
+□ All tests pass (mvn test, 0 failures)
+□ Coverage targets met (Line ≥ 70%, Branch ≥ 60%)
+□ No Redis/MySQL/Docker required to run
+□ All methods in class_list.json have test_status = pass
+□ Config, Interceptor, Utility classes all have tests
+□ Adaptable to any Java project
+□ Per-class coverage tracked in coverage_report.json
 ```

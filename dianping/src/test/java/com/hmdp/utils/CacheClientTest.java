@@ -1,8 +1,10 @@
 package com.hmdp.utils;
 
+import cn.hutool.json.JSONUtil;
+import com.hmdp.entity.Shop;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -10,34 +12,81 @@ import org.mockito.quality.Strictness;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class CacheClientTest {
 
-    @Mock private StringRedisTemplate stringRedisTemplate;
-    @Mock private ValueOperations<String, String> valueOps;
-    @InjectMocks private CacheClient cacheClient;
+    @Mock
+    private StringRedisTemplate stringRedisTemplate;
 
-    @Test
-    void shouldSet() {
+    @Mock
+    private ValueOperations<String, String> valueOps;
+
+    private CacheClient cacheClient;
+
+    @BeforeEach
+    void setUp() {
         when(stringRedisTemplate.opsForValue()).thenReturn(valueOps);
-
-        cacheClient.set("key1", "value1", 10L, TimeUnit.MINUTES);
-
-        verify(valueOps).set(eq("key1"), anyString(), eq(10L), eq(TimeUnit.MINUTES));
+        cacheClient = new CacheClient(stringRedisTemplate);
     }
 
     @Test
-    void shouldSetWithLogicalExpire() {
-        when(stringRedisTemplate.opsForValue()).thenReturn(valueOps);
+    void shouldReturnCachedWhenQueryWithLogicalExpire() {
+        // Arrange
+        String keyPrefix = "cache:shop:";
+        Long id = 1L;
+        String key = keyPrefix + id;
 
-        cacheClient.setWithLogicalExpire("key1", "value1", 10L, TimeUnit.MINUTES);
+        Shop shop = new Shop();
+        shop.setId(1L);
+        shop.setName("Test Shop");
 
-        verify(valueOps).set(eq("key1"), anyString());
+        RedisData redisData = new RedisData();
+        redisData.setData(shop);
+        redisData.setExpireTime(LocalDateTime.now().plusHours(1));
+
+        String json = JSONUtil.toJsonStr(redisData);
+        when(valueOps.get(key)).thenReturn(json);
+
+        // Act
+        Shop result = cacheClient.queryWithLogicalExpire(
+                keyPrefix, id, Shop.class, null, 30L, TimeUnit.MINUTES);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Test Shop", result.getName());
+        verify(valueOps).get(key);
+    }
+
+    @Test
+    void shouldReturnCachedWhenQueryWithPassThrough() {
+        // Arrange
+        String keyPrefix = "cache:shop:";
+        Long id = 1L;
+        String key = keyPrefix + id;
+
+        Shop shop = new Shop();
+        shop.setId(1L);
+        shop.setName("Test Shop");
+
+        String json = JSONUtil.toJsonStr(shop);
+        when(valueOps.get(key)).thenReturn(json);
+
+        // Act
+        Shop result = cacheClient.queryWithPassThrough(
+                keyPrefix, id, Shop.class, null, 30L, TimeUnit.MINUTES);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Test Shop", result.getName());
+        verify(valueOps).get(key);
     }
 }

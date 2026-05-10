@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+
+      "Bash(python *)",
+      "Bash(python3 *)",
+
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(ls *)",
+      "Bash(cd *)",
+      "Bash(cat *)",
+      "Bash(mkdir *)",
+      "Bash(rm *)",
+
+      "Bash(/home/twinkle/app/maven/bin/mvn *)"
+    ],
+    "additionalDirectories": [
+      "/home/twinkle/app/808/Agent_UT_deepseek/dianping"
+    ]
+  }
+}

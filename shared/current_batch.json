@@ -1,141 +1,493 @@
 {
   "batch": [
     {
-      "class_name": "Result",
-      "package": "com.hmdp.dto",
-      "class_path": "src/main/java/com/hmdp/dto/Result.java",
-      "test_file": "src/test/java/com/hmdp/dto/ResultTest.java",
-      "type": "entity",
-      "priority": 1,
-      "method_name": "ok",
-      "signature": "public Result ok(Object data)",
-      "test_method": "shouldReturnResultWhenOk",
-      "complexity": "simple"
+      "class_name": "VoucherOrderServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "class_path": "src/main/java/com/hmdp/service/impl/VoucherOrderServiceImpl.java",
+      "test_file": "src/test/java/com/hmdp/service/impl/VoucherOrderServiceImplTest.java",
+      "type": "service",
+      "priority": 4,
+      "class_coverage_status": "pending",
+      "class_line_coverage": 0.0,
+      "class_branch_coverage": 0.0,
+      "class_methods": [
+        {
+          "name": "run",
+          "signature": "public void run()",
+          "test_method": "shouldRunSuccessfully",
+          "complexity": "medium",
+          "test_status": "pending"
+        },
+        {
+          "name": "handleVoucherOrder",
+          "signature": "public void handleVoucherOrder(VoucherOrder voucherOrder)",
+          "test_method": "shouldHandleVoucherOrderSuccessfully",
+          "complexity": "medium",
+          "test_status": "pending"
+        },
+        {
+          "name": "seckillVoucher",
+          "signature": "public Result seckillVoucher(Long voucherId)",
+          "test_method": "shouldReturnResultWhenSeckillVoucher",
+          "complexity": "complex",
+          "test_status": "pass"
+        },
+        {
+          "name": "createVoucherOrder",
+          "signature": "public void createVoucherOrder(VoucherOrder voucherOrder)",
+          "test_method": "shouldCreateVoucherOrderSuccessfully",
+          "complexity": "medium",
+          "test_status": "pending"
+        }
+      ],
+      "complexity": "complex",
+      "attempt": 1
     },
     {
-      "class_name": "CacheClient",
-      "package": "com.hmdp.utils",
-      "class_path": "src/main/java/com/hmdp/utils/CacheClient.java",
-      "test_file": "src/test/java/com/hmdp/utils/CacheClientTest.java",
-      "type": "utils",
-      "priority": 2,
-      "method_name": "setWithLogicalExpire",
-      "signature": "public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)",
-      "test_method": "shouldSetWithLogicalExpireSuccessfully",
-      "complexity": "simple"
+      "class_name": "UserController",
+      "package": "com.hmdp.controller",
+      "class_path": "src/main/java/com/hmdp/controller/UserController.java",
+      "test_file": "src/test/java/com/hmdp/controller/UserControllerTest.java",
+      "type": "controller",
+      "priority": 3,
+      "class_coverage_status": "pending",
+      "class_line_coverage": 0.0,
+      "class_branch_coverage": 0.0,
+      "class_methods": [
+        {
+          "name": "sendCode",
+          "signature": "public Result sendCode(@RequestParam(\"\") String phone, HttpSession session)",
+          "test_method": "shouldReturnResultWhenSendCode",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "login",
+          "signature": "public Result login(@RequestBody LoginFormDTO loginForm, HttpSession session)",
+          "test_method": "shouldReturnResultWhenLogin",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "logout",
+          "signature": "public Result logout()",
+          "test_method": "shouldReturnResultWhenLogout",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "me",
+          "signature": "public Result me()",
+          "test_method": "shouldReturnResultWhenMe",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "info",
+          "signature": "public Result info(@PathVariable(\"\") Long userId)",
+          "test_method": "shouldReturnResultWhenInfo",
+          "complexity": "medium",
+          "test_status": "pass"
+        },
+        {
+          "name": "queryUserById",
+          "signature": "public Result queryUserById(@PathVariable(\"\") Long userId)",
+          "test_method": "shouldReturnResultWhenQueryUserById",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "sign",
+          "signature": "public Result sign()",
+          "test_method": "shouldReturnResultWhenSign",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "signCount",
+          "signature": "public Result signCount()",
+          "test_method": "shouldReturnResultWhenSignCount",
+          "complexity": "simple",
+          "test_status": "pending"
+        }
+      ],
+      "complexity": "medium",
+      "attempt": 1
     },
     {
-      "class_name": "PasswordEncoder",
-      "package": "com.hmdp.utils",
-      "class_path": "src/main/java/com/hmdp/utils/PasswordEncoder.java",
-      "test_file": "src/test/java/com/hmdp/utils/PasswordEncoderTest.java",
-      "type": "utils",
+      "class_name": "QueueConfig",
+      "package": "com.hmdp.config",
+      "class_path": "src/main/java/com/hmdp/config/QueueConfig.java",
+      "test_file": "src/test/java/com/hmdp/config/QueueConfigTest.java",
+      "type": "config",
       "priority": 2,
-      "method_name": "matches",
-      "signature": "public Boolean matches(String encodedPassword, String rawPassword)",
-      "test_method": "shouldMatchesSuccessfully",
-      "complexity": "medium"
+      "class_coverage_status": "pending",
+      "class_line_coverage": 0.0,
+      "class_branch_coverage": 0.0,
+      "class_methods": [
+        {
+          "name": "xExchange",
+          "signature": "public DirectExchange xExchange()",
+          "test_method": "shouldReturnDirectexchangeWhenXExchange",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "yExchange",
+          "signature": "public DirectExchange yExchange()",
+          "test_method": "shouldReturnDirectexchangeWhenYExchange",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "queueA",
+          "signature": "public Queue queueA()",
+          "test_method": "shouldReturnQueueWhenQueueA",
+          "complexity": "medium",
+          "test_status": "pass"
+        },
+        {
+          "name": "queueD",
+          "signature": "public Queue queueD()",
+          "test_method": "shouldReturnQueueWhenQueueD",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "queueABindingX",
+          "signature": "public Binding queueABindingX(@Qualifier(\"\")Queue queueA, @Qualifier(\"\") DirectExchange xExchange)",
+          "test_method": "shouldReturnBindingWhenQueueABindingX",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "queueDBindingY",
+          "signature": "public Binding queueDBindingY(@Qualifier(\"\")Queue queueD, @Qualifier(\"\") DirectExchange yExchange)",
+          "test_method": "shouldReturnBindingWhenQueueDBindingY",
+          "complexity": "simple",
+          "test_status": "pending"
+        }
+      ],
+      "complexity": "medium",
+      "attempt": 1
     },
     {
-      "class_name": "RegexUtils",
-      "package": "com.hmdp.utils",
-      "class_path": "src/main/java/com/hmdp/utils/RegexUtils.java",
-      "test_file": "src/test/java/com/hmdp/utils/RegexUtilsTest.java",
-      "type": "utils",
-      "priority": 2,
-      "method_name": "isEmailInvalid",
-      "signature": "public boolean isEmailInvalid(String email)",
-      "test_method": "shouldIsEmailInvalidSuccessfully",
-      "complexity": "simple"
+      "class_name": "FollowServiceImpl",
+      "package": "com.hmdp.service.impl",
+      "class_path": "src/main/java/com/hmdp/service/impl/FollowServiceImpl.java",
+      "test_file": "src/test/java/com/hmdp/service/impl/FollowServiceImplTest.java",
+      "type": "service",
+      "priority": 4,
+      "class_coverage_status": "pending",
+      "class_line_coverage": 0.0,
+      "class_branch_coverage": 0.0,
+      "class_methods": [
+        {
+          "name": "follow",
+          "signature": "public Result follow(Long followUserId, Boolean isFollow)",
+          "test_method": "shouldReturnResultWhenFollow",
+          "complexity": "medium",
+          "test_status": "pass"
+        },
+        {
+          "name": "isFollow",
+          "signature": "public Result isFollow(Long followUserId)",
+          "test_method": "shouldReturnResultWhenIsFollow",
+          "complexity": "simple",
+          "test_status": "pending"
+        },
+        {
+          "name": "followCommons",
+          "signature": "public Result followCommons(Long id)",
+          "test_method": "shouldReturnResultWhenFollowCommons",
+          "complexity": "medium",
+          "test_status": "pending"
+        }
+      ],
+      "complexity": "medium",
+      "attempt": 1
     },
     {
-      "class_name": "SimpleRedisLock",
-      "package": "com.hmdp.utils",
-      "class_path": "src/main/java/com/hmdp/utils/SimpleRedisLock.java",
-      "test_file": "src/test/java/com/hmdp/utils/SimpleRedisLockTest.java",
-      "type": "utils",
-      "priority": 2,
-      "method_name": "tryLock",
-      "signature": "public boolean tryLock(long timeoutSec)",
-      "test_method": "shouldTryLockSuccessfully",
-      "complexity": "simple"
+      "class_name": "RefreshTokenInterceptor",
+      "package": "com.hmdp.interceptor",
+      "class_path": "src/main/java/com/hmdp/interceptor/RefreshTokenInterceptor.java",
+      "test_file": "src/test/java/com/hmdp/interceptor/RefreshTokenInterceptorTest.java",
+      "type": "interceptor",
+      "priority": 5,
+      "class_coverage_status": "pending",
+      "class_line_coverage": 0.0,
+      "class_branch_coverage": 0.0,
+      "class_methods": [
+        {
+          "name": "preHandle",
+          "signature": "public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)",
+          "test_method": "shouldPreHandleSuccessfully",
+          "complexity": "medium",
+          "test_status": "pending"
+        },
+        {
+          "name": "afterCompletion",
+          "signature": "public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)",
+          "test_method": "shouldAfterCompletionSuccessfully",
+          "complexity": "simple",
+          "test_status": "pending"
+        }
+      ],
+      "complexity": "medium",
+      "attempt": 1
     }
   ],
   "prompts": [
     {
       "task": {
-        "class_name": "Result",
-        "package": "com.hmdp.dto",
-        "class_path": "src/main/java/com/hmdp/dto/Result.java",
-        "test_file": "src/test/java/com/hmdp/dto/ResultTest.java",
-        "type": "entity",
-        "priority": 1,
-        "method_name": "ok",
-        "signature": "public Result ok(Object data)",
-        "test_method": "shouldReturnResultWhenOk",
-        "complexity": "simple"
+        "class_name": "VoucherOrderServiceImpl",
+        "package": "com.hmdp.service.impl",
+        "class_path": "src/main/java/com/hmdp/service/impl/VoucherOrderServiceImpl.java",
+        "test_file": "src/test/java/com/hmdp/service/impl/VoucherOrderServiceImplTest.java",
+        "type": "service",
+        "priority": 4,
+        "class_coverage_status": "pending",
+        "class_line_coverage": 0.0,
+        "class_branch_coverage": 0.0,
+        "class_methods": [
+          {
+            "name": "run",
+            "signature": "public void run()",
+            "test_method": "shouldRunSuccessfully",
+            "complexity": "medium",
+            "test_status": "pending"
+          },
+          {
+            "name": "handleVoucherOrder",
+            "signature": "public void handleVoucherOrder(VoucherOrder voucherOrder)",
+            "test_method": "shouldHandleVoucherOrderSuccessfully",
+            "complexity": "medium",
+            "test_status": "pending"
+          },
+          {
+            "name": "seckillVoucher",
+            "signature": "public Result seckillVoucher(Long voucherId)",
+            "test_method": "shouldReturnResultWhenSeckillVoucher",
+            "complexity": "complex",
+            "test_status": "pass"
+          },
+          {
+            "name": "createVoucherOrder",
+            "signature": "public void createVoucherOrder(VoucherOrder voucherOrder)",
+            "test_method": "shouldCreateVoucherOrderSuccessfully",
+            "complexity": "medium",
+            "test_status": "pending"
+          }
+        ],
+        "complexity": "complex",
+        "attempt": 1
       },
-      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.dto.Result\n- Method: ok\n- Signature: public Result ok(Object data)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/dto/Result.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/dto/ResultTest.java\n- Test method name: shouldReturnResultWhenOk\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/dto/Result.java` and understand the `ok` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=ResultTest#shouldReturnResultWhenOk\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"Result\",\n  \"method_name\": \"ok\",\n  \"test_method\": \"shouldReturnResultWhenOk\",\n  \"test_file\": \"src/test/java/com/hmdp/dto/ResultTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write tests for ONE class until coverage targets are met or all branches are exhausted.\n\n## Target Class\n- Class: com.hmdp.service.impl.VoucherOrderServiceImpl (service)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/service/impl/VoucherOrderServiceImpl.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/service/impl/VoucherOrderServiceImplTest.java\n- Complexity: complex\n- Coverage targets: Line >= 70%, Branch >= 60%\n\n\n## Method Inventory\n| # | Method | Signature | Complexity | Status | Suggested Test |\n|---|--------|-----------|------------|--------|----------------|\n| 1 | run | public void run() | medium | pending | shouldRunSuccessfully |\n| 2 | handleVoucherOrder | public void handleVoucherOrder(VoucherOrder voucherOrder) | medium | pending | shouldHandleVoucherOrderSuccessfully |\n| 3 | seckillVoucher | public Result seckillVoucher(Long voucherId) | complex | pass | shouldReturnResultWhenSeckillVoucher |\n| 4 | createVoucherOrder | public void createVoucherOrder(VoucherOrder voucherOrder) | medium | pending | shouldCreateVoucherOrderSuccessfully |\n\nMethods marked \"pass\" already have working tests — do NOT duplicate them.\nMethods marked \"pending\" need tests.\nMethods marked \"fail\" need fixed tests.\n\n## Coverage Iteration Loop (CRITICAL)\n\nYou MUST iterate until one of these STOP conditions is met:\n  **STOP-A**: VoucherOrderServiceImpl line_coverage >= 70% AND branch_coverage >= 60%\n  **STOP-B**: No uncovered branches remain for ANY pending/failed method\n  **STOP-C**: You have completed 10 iterations\n\n### Initial Setup (Iteration 0)\n1. Read the source file to understand ALL methods, their branches, and dependencies\n2. Read the existing test file (if any) to see existing tests\n3. Run baseline: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=VoucherOrderServiceImplTest\n4. Run coverage: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n5. Parse `target/site/jacoco/jacoco.csv` — find row for `VoucherOrderServiceImpl`, note baseline line_coverage and branch_coverage\n\n### Each Iteration\n1. Identify uncovered branches from the LATEST jacoco.csv metrics\n2. Pick the highest-priority uncovered branch and write ONE test for it\n3. Run: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=VoucherOrderServiceImplTest#testMethod\n4. If test FAILS: fix the test and re-run (same iteration — don't advance)\n5. After test passes: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n6. Parse `target/site/jacoco/jacoco.csv` for row `VoucherOrderServiceImpl`:\n   - line_coverage = LINE_COVERED / (LINE_MISSED + LINE_COVERED)\n   - branch_coverage = BRANCH_COVERED / (BRANCH_MISSED + BRANCH_COVERED)\n   - If BRANCH_MISSED + BRANCH_COVERED == 0, branch_coverage = 0\n7. Check STOP conditions — if none met, increment iteration and continue\n\n### Branch Prioritization\n1. Complex methods first (most uncovered branches)\n2. Medium methods next\n3. Simple methods last\n4. Within a method: error/null paths first, then happy paths\n\n### Constraints\n- Max 10 iterations total\n- Write at most 2 tests per iteration\n- Do NOT modify source code — only add/modify test file\n- If the test file does not exist, create it with proper structure\n- If the test file exists, append new @Test methods\n- After EACH test pass, run jacoco:report and parse coverage\n\n## Mock Strategy for This Class Type\n\n**Service class** - Typical dependencies:\n- MyBatis-Plus Mapper: `@Mock Mapper` + mock `baseMapper.selectOne/selectList/selectPage/update/updateById/insert`\n- Redis: `@Mock StringRedisTemplate` + mock `opsForValue/opsForSet/opsForZSet/opsForHash/opsForList/opsForGeo` → `@Mock ValueOperations/SetOperations/ZSetOperations/HashOperations/ListOperations/GeoOperations`\n- Other services: `@Mock ISomeService`\n- Redisson: `@Mock RedissonClient` + `@Mock RLock`\n- MyBatis-Plus chain calls: query().eq().one() → mock baseMapper.selectOne(); update().setSql().eq().update() → mock baseMapper.update(null, wrapper)\n- Add `@MockitoSettings(strictness = Strictness.LENIENT)` to class level\n\n## Class Coverage Strategy\nCOMPLEX class with 3 pending methods — many branches to cover.\nWork methodically: complex methods first, then medium, then simple.\nAfter each test, re-check jacoco.csv for uncovered branches.\nDO NOT write tests for branches already covered.\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md and /home/twinkle/app/808/Agent_UT_deepseek/prompts/SUBAGENT_UT_PROMPT.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Add @MockitoSettings(strictness = Strictness.LENIENT) to class level\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database, MQ) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior = one branch\n- For MyBatis-Plus: chain calls delegate to baseMapper — mock the baseMapper\n- For Redis: mock StringRedisTemplate + each ops type\n- For ThreadLocal: set directly + cleanup in @AfterEach\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"class_complete|class_partial|fail\",\n  \"class_name\": \"VoucherOrderServiceImpl\",\n  \"class_coverage\": {\n    \"line_coverage\": 0.0,\n    \"branch_coverage\": 0.0\n  },\n  \"stop_reason\": \"targets_met|branches_exhausted|max_iterations|compilation_error\",\n  \"test_results\": [\n    {\n      \"status\": \"pass\",\n      \"method_name\": \"methodName\",\n      \"test_method\": \"shouldXxxWhenYyy\",\n      \"branches_covered\": [\"branch description\"],\n      \"duration_ms\": 0\n    }\n  ],\n  \"iterations\": 0,\n  \"uncovered_branches\": [],\n  \"error\": null,\n  \"total_duration_ms\": 0\n}\n```\n- `status`: \"class_complete\" (targets met), \"class_partial\" (progress made but not met), \"fail\" (fatal error)\n- `stop_reason`: why the loop stopped\n- `test_results`: ALL tests written in this dispatch (can be empty if fail)\n- `uncovered_branches`: remaining uncovered branch descriptions (for class_partial)\n- `error`: set only if status=fail\n"
     },
     {
       "task": {
-        "class_name": "CacheClient",
-        "package": "com.hmdp.utils",
-        "class_path": "src/main/java/com/hmdp/utils/CacheClient.java",
-        "test_file": "src/test/java/com/hmdp/utils/CacheClientTest.java",
-        "type": "utils",
-        "priority": 2,
-        "method_name": "setWithLogicalExpire",
-        "signature": "public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)",
-        "test_method": "shouldSetWithLogicalExpireSuccessfully",
-        "complexity": "simple"
+        "class_name": "UserController",
+        "package": "com.hmdp.controller",
+        "class_path": "src/main/java/com/hmdp/controller/UserController.java",
+        "test_file": "src/test/java/com/hmdp/controller/UserControllerTest.java",
+        "type": "controller",
+        "priority": 3,
+        "class_coverage_status": "pending",
+        "class_line_coverage": 0.0,
+        "class_branch_coverage": 0.0,
+        "class_methods": [
+          {
+            "name": "sendCode",
+            "signature": "public Result sendCode(@RequestParam(\"\") String phone, HttpSession session)",
+            "test_method": "shouldReturnResultWhenSendCode",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "login",
+            "signature": "public Result login(@RequestBody LoginFormDTO loginForm, HttpSession session)",
+            "test_method": "shouldReturnResultWhenLogin",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "logout",
+            "signature": "public Result logout()",
+            "test_method": "shouldReturnResultWhenLogout",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "me",
+            "signature": "public Result me()",
+            "test_method": "shouldReturnResultWhenMe",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "info",
+            "signature": "public Result info(@PathVariable(\"\") Long userId)",
+            "test_method": "shouldReturnResultWhenInfo",
+            "complexity": "medium",
+            "test_status": "pass"
+          },
+          {
+            "name": "queryUserById",
+            "signature": "public Result queryUserById(@PathVariable(\"\") Long userId)",
+            "test_method": "shouldReturnResultWhenQueryUserById",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "sign",
+            "signature": "public Result sign()",
+            "test_method": "shouldReturnResultWhenSign",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "signCount",
+            "signature": "public Result signCount()",
+            "test_method": "shouldReturnResultWhenSignCount",
+            "complexity": "simple",
+            "test_status": "pending"
+          }
+        ],
+        "complexity": "medium",
+        "attempt": 1
       },
-      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.CacheClient\n- Method: setWithLogicalExpire\n- Signature: public void setWithLogicalExpire(String key,Object value,Long time,TimeUnit unit)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/CacheClient.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/CacheClientTest.java\n- Test method name: shouldSetWithLogicalExpireSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/CacheClient.java` and understand the `setWithLogicalExpire` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=CacheClientTest#shouldSetWithLogicalExpireSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"CacheClient\",\n  \"method_name\": \"setWithLogicalExpire\",\n  \"test_method\": \"shouldSetWithLogicalExpireSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/CacheClientTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write tests for ONE class until coverage targets are met or all branches are exhausted.\n\n## Target Class\n- Class: com.hmdp.controller.UserController (controller)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/controller/UserController.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/controller/UserControllerTest.java\n- Complexity: medium\n- Coverage targets: Line >= 70%, Branch >= 60%\n\n\n## Method Inventory\n| # | Method | Signature | Complexity | Status | Suggested Test |\n|---|--------|-----------|------------|--------|----------------|\n| 1 | sendCode | public Result sendCode(@RequestParam(\"\") String phone, HttpSession session) | simple | pending | shouldReturnResultWhenSendCode |\n| 2 | login | public Result login(@RequestBody LoginFormDTO loginForm, HttpSession session) | simple | pending | shouldReturnResultWhenLogin |\n| 3 | logout | public Result logout() | simple | pending | shouldReturnResultWhenLogout |\n| 4 | me | public Result me() | simple | pending | shouldReturnResultWhenMe |\n| 5 | info | public Result info(@PathVariable(\"\") Long userId) | medium | pass | shouldReturnResultWhenInfo |\n| 6 | queryUserById | public Result queryUserById(@PathVariable(\"\") Long userId) | simple | pending | shouldReturnResultWhenQueryUserById |\n| 7 | sign | public Result sign() | simple | pending | shouldReturnResultWhenSign |\n| 8 | signCount | public Result signCount() | simple | pending | shouldReturnResultWhenSignCount |\n\nMethods marked \"pass\" already have working tests — do NOT duplicate them.\nMethods marked \"pending\" need tests.\nMethods marked \"fail\" need fixed tests.\n\n## Coverage Iteration Loop (CRITICAL)\n\nYou MUST iterate until one of these STOP conditions is met:\n  **STOP-A**: UserController line_coverage >= 70% AND branch_coverage >= 60%\n  **STOP-B**: No uncovered branches remain for ANY pending/failed method\n  **STOP-C**: You have completed 10 iterations\n\n### Initial Setup (Iteration 0)\n1. Read the source file to understand ALL methods, their branches, and dependencies\n2. Read the existing test file (if any) to see existing tests\n3. Run baseline: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=UserControllerTest\n4. Run coverage: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n5. Parse `target/site/jacoco/jacoco.csv` — find row for `UserController`, note baseline line_coverage and branch_coverage\n\n### Each Iteration\n1. Identify uncovered branches from the LATEST jacoco.csv metrics\n2. Pick the highest-priority uncovered branch and write ONE test for it\n3. Run: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=UserControllerTest#testMethod\n4. If test FAILS: fix the test and re-run (same iteration — don't advance)\n5. After test passes: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n6. Parse `target/site/jacoco/jacoco.csv` for row `UserController`:\n   - line_coverage = LINE_COVERED / (LINE_MISSED + LINE_COVERED)\n   - branch_coverage = BRANCH_COVERED / (BRANCH_MISSED + BRANCH_COVERED)\n   - If BRANCH_MISSED + BRANCH_COVERED == 0, branch_coverage = 0\n7. Check STOP conditions — if none met, increment iteration and continue\n\n### Branch Prioritization\n1. Complex methods first (most uncovered branches)\n2. Medium methods next\n3. Simple methods last\n4. Within a method: error/null paths first, then happy paths\n\n### Constraints\n- Max 10 iterations total\n- Write at most 2 tests per iteration\n- Do NOT modify source code — only add/modify test file\n- If the test file does not exist, create it with proper structure\n- If the test file exists, append new @Test methods\n- After EACH test pass, run jacoco:report and parse coverage\n\n## Mock Strategy for This Class Type\n\n**Controller class** - Use `@InjectMocks` with `@Mock` services (NOT @WebMvcTest):\n- `@Mock ISomeService` for each service dependency\n- `@InjectMocks SomeController`\n- Call controller methods directly (no MockMvc)\n- Assert on returned Result object: `assertTrue(result.getSuccess())`, `assertEquals(200, result.getCode())`\n- No Spring context needed — pure Mockito test\n\n## Class Coverage Strategy\n7 pending methods with moderate branching.\nWrite tests method-by-method, checking coverage after each pass.\nPrioritize methods with the most branching.\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md and /home/twinkle/app/808/Agent_UT_deepseek/prompts/SUBAGENT_UT_PROMPT.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Add @MockitoSettings(strictness = Strictness.LENIENT) to class level\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database, MQ) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior = one branch\n- For MyBatis-Plus: chain calls delegate to baseMapper — mock the baseMapper\n- For Redis: mock StringRedisTemplate + each ops type\n- For ThreadLocal: set directly + cleanup in @AfterEach\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"class_complete|class_partial|fail\",\n  \"class_name\": \"UserController\",\n  \"class_coverage\": {\n    \"line_coverage\": 0.0,\n    \"branch_coverage\": 0.0\n  },\n  \"stop_reason\": \"targets_met|branches_exhausted|max_iterations|compilation_error\",\n  \"test_results\": [\n    {\n      \"status\": \"pass\",\n      \"method_name\": \"methodName\",\n      \"test_method\": \"shouldXxxWhenYyy\",\n      \"branches_covered\": [\"branch description\"],\n      \"duration_ms\": 0\n    }\n  ],\n  \"iterations\": 0,\n  \"uncovered_branches\": [],\n  \"error\": null,\n  \"total_duration_ms\": 0\n}\n```\n- `status`: \"class_complete\" (targets met), \"class_partial\" (progress made but not met), \"fail\" (fatal error)\n- `stop_reason`: why the loop stopped\n- `test_results`: ALL tests written in this dispatch (can be empty if fail)\n- `uncovered_branches`: remaining uncovered branch descriptions (for class_partial)\n- `error`: set only if status=fail\n"
     },
     {
       "task": {
-        "class_name": "PasswordEncoder",
-        "package": "com.hmdp.utils",
-        "class_path": "src/main/java/com/hmdp/utils/PasswordEncoder.java",
-        "test_file": "src/test/java/com/hmdp/utils/PasswordEncoderTest.java",
-        "type": "utils",
+        "class_name": "QueueConfig",
+        "package": "com.hmdp.config",
+        "class_path": "src/main/java/com/hmdp/config/QueueConfig.java",
+        "test_file": "src/test/java/com/hmdp/config/QueueConfigTest.java",
+        "type": "config",
         "priority": 2,
-        "method_name": "matches",
-        "signature": "public Boolean matches(String encodedPassword, String rawPassword)",
-        "test_method": "shouldMatchesSuccessfully",
-        "complexity": "medium"
+        "class_coverage_status": "pending",
+        "class_line_coverage": 0.0,
+        "class_branch_coverage": 0.0,
+        "class_methods": [
+          {
+            "name": "xExchange",
+            "signature": "public DirectExchange xExchange()",
+            "test_method": "shouldReturnDirectexchangeWhenXExchange",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "yExchange",
+            "signature": "public DirectExchange yExchange()",
+            "test_method": "shouldReturnDirectexchangeWhenYExchange",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "queueA",
+            "signature": "public Queue queueA()",
+            "test_method": "shouldReturnQueueWhenQueueA",
+            "complexity": "medium",
+            "test_status": "pass"
+          },
+          {
+            "name": "queueD",
+            "signature": "public Queue queueD()",
+            "test_method": "shouldReturnQueueWhenQueueD",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "queueABindingX",
+            "signature": "public Binding queueABindingX(@Qualifier(\"\")Queue queueA, @Qualifier(\"\") DirectExchange xExchange)",
+            "test_method": "shouldReturnBindingWhenQueueABindingX",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "queueDBindingY",
+            "signature": "public Binding queueDBindingY(@Qualifier(\"\")Queue queueD, @Qualifier(\"\") DirectExchange yExchange)",
+            "test_method": "shouldReturnBindingWhenQueueDBindingY",
+            "complexity": "simple",
+            "test_status": "pending"
+          }
+        ],
+        "complexity": "medium",
+        "attempt": 1
       },
-      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.PasswordEncoder\n- Method: matches\n- Signature: public Boolean matches(String encodedPassword, String rawPassword)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/PasswordEncoder.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/PasswordEncoderTest.java\n- Test method name: shouldMatchesSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/PasswordEncoder.java` and understand the `matches` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=PasswordEncoderTest#shouldMatchesSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"PasswordEncoder\",\n  \"method_name\": \"matches\",\n  \"test_method\": \"shouldMatchesSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/PasswordEncoderTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write tests for ONE class until coverage targets are met or all branches are exhausted.\n\n## Target Class\n- Class: com.hmdp.config.QueueConfig (config)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/config/QueueConfig.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/config/QueueConfigTest.java\n- Complexity: medium\n- Coverage targets: Line >= 70%, Branch >= 60%\n\n\n## Method Inventory\n| # | Method | Signature | Complexity | Status | Suggested Test |\n|---|--------|-----------|------------|--------|----------------|\n| 1 | xExchange | public DirectExchange xExchange() | simple | pending | shouldReturnDirectexchangeWhenXExchange |\n| 2 | yExchange | public DirectExchange yExchange() | simple | pending | shouldReturnDirectexchangeWhenYExchange |\n| 3 | queueA | public Queue queueA() | medium | pass | shouldReturnQueueWhenQueueA |\n| 4 | queueD | public Queue queueD() | simple | pending | shouldReturnQueueWhenQueueD |\n| 5 | queueABindingX | public Binding queueABindingX(@Qualifier(\"\")Queue queueA, @Qualifier(\"\") DirectExchange xExchange) | simple | pending | shouldReturnBindingWhenQueueABindingX |\n| 6 | queueDBindingY | public Binding queueDBindingY(@Qualifier(\"\")Queue queueD, @Qualifier(\"\") DirectExchange yExchange) | simple | pending | shouldReturnBindingWhenQueueDBindingY |\n\nMethods marked \"pass\" already have working tests — do NOT duplicate them.\nMethods marked \"pending\" need tests.\nMethods marked \"fail\" need fixed tests.\n\n## Coverage Iteration Loop (CRITICAL)\n\nYou MUST iterate until one of these STOP conditions is met:\n  **STOP-A**: QueueConfig line_coverage >= 70% AND branch_coverage >= 60%\n  **STOP-B**: No uncovered branches remain for ANY pending/failed method\n  **STOP-C**: You have completed 10 iterations\n\n### Initial Setup (Iteration 0)\n1. Read the source file to understand ALL methods, their branches, and dependencies\n2. Read the existing test file (if any) to see existing tests\n3. Run baseline: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=QueueConfigTest\n4. Run coverage: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n5. Parse `target/site/jacoco/jacoco.csv` — find row for `QueueConfig`, note baseline line_coverage and branch_coverage\n\n### Each Iteration\n1. Identify uncovered branches from the LATEST jacoco.csv metrics\n2. Pick the highest-priority uncovered branch and write ONE test for it\n3. Run: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=QueueConfigTest#testMethod\n4. If test FAILS: fix the test and re-run (same iteration — don't advance)\n5. After test passes: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n6. Parse `target/site/jacoco/jacoco.csv` for row `QueueConfig`:\n   - line_coverage = LINE_COVERED / (LINE_MISSED + LINE_COVERED)\n   - branch_coverage = BRANCH_COVERED / (BRANCH_MISSED + BRANCH_COVERED)\n   - If BRANCH_MISSED + BRANCH_COVERED == 0, branch_coverage = 0\n7. Check STOP conditions — if none met, increment iteration and continue\n\n### Branch Prioritization\n1. Complex methods first (most uncovered branches)\n2. Medium methods next\n3. Simple methods last\n4. Within a method: error/null paths first, then happy paths\n\n### Constraints\n- Max 10 iterations total\n- Write at most 2 tests per iteration\n- Do NOT modify source code — only add/modify test file\n- If the test file does not exist, create it with proper structure\n- If the test file exists, append new @Test methods\n- After EACH test pass, run jacoco:report and parse coverage\n\n## Mock Strategy for This Class Type\n\n**Config class** - Test @Bean factory methods:\n- Create the config object directly: `new SomeConfig()`\n- Call the @Bean method directly\n- Assert the returned bean is not null and properly configured\n- If the config method takes parameters, use `@Mock` for dependencies and `@InjectMocks` for the config class\n\n## Class Coverage Strategy\n5 pending methods with moderate branching.\nWrite tests method-by-method, checking coverage after each pass.\nPrioritize methods with the most branching.\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md and /home/twinkle/app/808/Agent_UT_deepseek/prompts/SUBAGENT_UT_PROMPT.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Add @MockitoSettings(strictness = Strictness.LENIENT) to class level\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database, MQ) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior = one branch\n- For MyBatis-Plus: chain calls delegate to baseMapper — mock the baseMapper\n- For Redis: mock StringRedisTemplate + each ops type\n- For ThreadLocal: set directly + cleanup in @AfterEach\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"class_complete|class_partial|fail\",\n  \"class_name\": \"QueueConfig\",\n  \"class_coverage\": {\n    \"line_coverage\": 0.0,\n    \"branch_coverage\": 0.0\n  },\n  \"stop_reason\": \"targets_met|branches_exhausted|max_iterations|compilation_error\",\n  \"test_results\": [\n    {\n      \"status\": \"pass\",\n      \"method_name\": \"methodName\",\n      \"test_method\": \"shouldXxxWhenYyy\",\n      \"branches_covered\": [\"branch description\"],\n      \"duration_ms\": 0\n    }\n  ],\n  \"iterations\": 0,\n  \"uncovered_branches\": [],\n  \"error\": null,\n  \"total_duration_ms\": 0\n}\n```\n- `status`: \"class_complete\" (targets met), \"class_partial\" (progress made but not met), \"fail\" (fatal error)\n- `stop_reason`: why the loop stopped\n- `test_results`: ALL tests written in this dispatch (can be empty if fail)\n- `uncovered_branches`: remaining uncovered branch descriptions (for class_partial)\n- `error`: set only if status=fail\n"
     },
     {
       "task": {
-        "class_name": "RegexUtils",
-        "package": "com.hmdp.utils",
-        "class_path": "src/main/java/com/hmdp/utils/RegexUtils.java",
-        "test_file": "src/test/java/com/hmdp/utils/RegexUtilsTest.java",
-        "type": "utils",
-        "priority": 2,
-        "method_name": "isEmailInvalid",
-        "signature": "public boolean isEmailInvalid(String email)",
-        "test_method": "shouldIsEmailInvalidSuccessfully",
-        "complexity": "simple"
+        "class_name": "FollowServiceImpl",
+        "package": "com.hmdp.service.impl",
+        "class_path": "src/main/java/com/hmdp/service/impl/FollowServiceImpl.java",
+        "test_file": "src/test/java/com/hmdp/service/impl/FollowServiceImplTest.java",
+        "type": "service",
+        "priority": 4,
+        "class_coverage_status": "pending",
+        "class_line_coverage": 0.0,
+        "class_branch_coverage": 0.0,
+        "class_methods": [
+          {
+            "name": "follow",
+            "signature": "public Result follow(Long followUserId, Boolean isFollow)",
+            "test_method": "shouldReturnResultWhenFollow",
+            "complexity": "medium",
+            "test_status": "pass"
+          },
+          {
+            "name": "isFollow",
+            "signature": "public Result isFollow(Long followUserId)",
+            "test_method": "shouldReturnResultWhenIsFollow",
+            "complexity": "simple",
+            "test_status": "pending"
+          },
+          {
+            "name": "followCommons",
+            "signature": "public Result followCommons(Long id)",
+            "test_method": "shouldReturnResultWhenFollowCommons",
+            "complexity": "medium",
+            "test_status": "pending"
+          }
+        ],
+        "complexity": "medium",
+        "attempt": 1
       },
-      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.RegexUtils\n- Method: isEmailInvalid\n- Signature: public boolean isEmailInvalid(String email)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/RegexUtils.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/RegexUtilsTest.java\n- Test method name: shouldIsEmailInvalidSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/RegexUtils.java` and understand the `isEmailInvalid` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=RegexUtilsTest#shouldIsEmailInvalidSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"RegexUtils\",\n  \"method_name\": \"isEmailInvalid\",\n  \"test_method\": \"shouldIsEmailInvalidSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/RegexUtilsTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write tests for ONE class until coverage targets are met or all branches are exhausted.\n\n## Target Class\n- Class: com.hmdp.service.impl.FollowServiceImpl (service)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/service/impl/FollowServiceImpl.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/service/impl/FollowServiceImplTest.java\n- Complexity: medium\n- Coverage targets: Line >= 70%, Branch >= 60%\n\n\n## Method Inventory\n| # | Method | Signature | Complexity | Status | Suggested Test |\n|---|--------|-----------|------------|--------|----------------|\n| 1 | follow | public Result follow(Long followUserId, Boolean isFollow) | medium | pass | shouldReturnResultWhenFollow |\n| 2 | isFollow | public Result isFollow(Long followUserId) | simple | pending | shouldReturnResultWhenIsFollow |\n| 3 | followCommons | public Result followCommons(Long id) | medium | pending | shouldReturnResultWhenFollowCommons |\n\nMethods marked \"pass\" already have working tests — do NOT duplicate them.\nMethods marked \"pending\" need tests.\nMethods marked \"fail\" need fixed tests.\n\n## Coverage Iteration Loop (CRITICAL)\n\nYou MUST iterate until one of these STOP conditions is met:\n  **STOP-A**: FollowServiceImpl line_coverage >= 70% AND branch_coverage >= 60%\n  **STOP-B**: No uncovered branches remain for ANY pending/failed method\n  **STOP-C**: You have completed 10 iterations\n\n### Initial Setup (Iteration 0)\n1. Read the source file to understand ALL methods, their branches, and dependencies\n2. Read the existing test file (if any) to see existing tests\n3. Run baseline: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=FollowServiceImplTest\n4. Run coverage: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n5. Parse `target/site/jacoco/jacoco.csv` — find row for `FollowServiceImpl`, note baseline line_coverage and branch_coverage\n\n### Each Iteration\n1. Identify uncovered branches from the LATEST jacoco.csv metrics\n2. Pick the highest-priority uncovered branch and write ONE test for it\n3. Run: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=FollowServiceImplTest#testMethod\n4. If test FAILS: fix the test and re-run (same iteration — don't advance)\n5. After test passes: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n6. Parse `target/site/jacoco/jacoco.csv` for row `FollowServiceImpl`:\n   - line_coverage = LINE_COVERED / (LINE_MISSED + LINE_COVERED)\n   - branch_coverage = BRANCH_COVERED / (BRANCH_MISSED + BRANCH_COVERED)\n   - If BRANCH_MISSED + BRANCH_COVERED == 0, branch_coverage = 0\n7. Check STOP conditions — if none met, increment iteration and continue\n\n### Branch Prioritization\n1. Complex methods first (most uncovered branches)\n2. Medium methods next\n3. Simple methods last\n4. Within a method: error/null paths first, then happy paths\n\n### Constraints\n- Max 10 iterations total\n- Write at most 2 tests per iteration\n- Do NOT modify source code — only add/modify test file\n- If the test file does not exist, create it with proper structure\n- If the test file exists, append new @Test methods\n- After EACH test pass, run jacoco:report and parse coverage\n\n## Mock Strategy for This Class Type\n\n**Service class** - Typical dependencies:\n- MyBatis-Plus Mapper: `@Mock Mapper` + mock `baseMapper.selectOne/selectList/selectPage/update/updateById/insert`\n- Redis: `@Mock StringRedisTemplate` + mock `opsForValue/opsForSet/opsForZSet/opsForHash/opsForList/opsForGeo` → `@Mock ValueOperations/SetOperations/ZSetOperations/HashOperations/ListOperations/GeoOperations`\n- Other services: `@Mock ISomeService`\n- Redisson: `@Mock RedissonClient` + `@Mock RLock`\n- MyBatis-Plus chain calls: query().eq().one() → mock baseMapper.selectOne(); update().setSql().eq().update() → mock baseMapper.update(null, wrapper)\n- Add `@MockitoSettings(strictness = Strictness.LENIENT)` to class level\n\n## Class Coverage Strategy\n2 pending methods with moderate branching.\nWrite tests method-by-method, checking coverage after each pass.\nPrioritize methods with the most branching.\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md and /home/twinkle/app/808/Agent_UT_deepseek/prompts/SUBAGENT_UT_PROMPT.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Add @MockitoSettings(strictness = Strictness.LENIENT) to class level\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database, MQ) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior = one branch\n- For MyBatis-Plus: chain calls delegate to baseMapper — mock the baseMapper\n- For Redis: mock StringRedisTemplate + each ops type\n- For ThreadLocal: set directly + cleanup in @AfterEach\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"class_complete|class_partial|fail\",\n  \"class_name\": \"FollowServiceImpl\",\n  \"class_coverage\": {\n    \"line_coverage\": 0.0,\n    \"branch_coverage\": 0.0\n  },\n  \"stop_reason\": \"targets_met|branches_exhausted|max_iterations|compilation_error\",\n  \"test_results\": [\n    {\n      \"status\": \"pass\",\n      \"method_name\": \"methodName\",\n      \"test_method\": \"shouldXxxWhenYyy\",\n      \"branches_covered\": [\"branch description\"],\n      \"duration_ms\": 0\n    }\n  ],\n  \"iterations\": 0,\n  \"uncovered_branches\": [],\n  \"error\": null,\n  \"total_duration_ms\": 0\n}\n```\n- `status`: \"class_complete\" (targets met), \"class_partial\" (progress made but not met), \"fail\" (fatal error)\n- `stop_reason`: why the loop stopped\n- `test_results`: ALL tests written in this dispatch (can be empty if fail)\n- `uncovered_branches`: remaining uncovered branch descriptions (for class_partial)\n- `error`: set only if status=fail\n"
     },
     {
       "task": {
-        "class_name": "SimpleRedisLock",
-        "package": "com.hmdp.utils",
-        "class_path": "src/main/java/com/hmdp/utils/SimpleRedisLock.java",
-        "test_file": "src/test/java/com/hmdp/utils/SimpleRedisLockTest.java",
-        "type": "utils",
-        "priority": 2,
-        "method_name": "tryLock",
-        "signature": "public boolean tryLock(long timeoutSec)",
-        "test_method": "shouldTryLockSuccessfully",
-        "complexity": "simple"
+        "class_name": "RefreshTokenInterceptor",
+        "package": "com.hmdp.interceptor",
+        "class_path": "src/main/java/com/hmdp/interceptor/RefreshTokenInterceptor.java",
+        "test_file": "src/test/java/com/hmdp/interceptor/RefreshTokenInterceptorTest.java",
+        "type": "interceptor",
+        "priority": 5,
+        "class_coverage_status": "pending",
+        "class_line_coverage": 0.0,
+        "class_branch_coverage": 0.0,
+        "class_methods": [
+          {
+            "name": "preHandle",
+            "signature": "public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)",
+            "test_method": "shouldPreHandleSuccessfully",
+            "complexity": "medium",
+            "test_status": "pending"
+          },
+          {
+            "name": "afterCompletion",
+            "signature": "public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)",
+            "test_method": "shouldAfterCompletionSuccessfully",
+            "complexity": "simple",
+            "test_status": "pending"
+          }
+        ],
+        "complexity": "medium",
+        "attempt": 1
       },
-      "prompt": "You are a Java UT test-writing specialist. Your job is to write ONE test method.\n\n## Target\n- Class: com.hmdp.utils.SimpleRedisLock\n- Method: tryLock\n- Signature: public boolean tryLock(long timeoutSec)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/SimpleRedisLock.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/utils/SimpleRedisLockTest.java\n- Test method name: shouldTryLockSuccessfully\n\n## Task\n1. Read the source file at `/home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/utils/SimpleRedisLock.java` and understand the `tryLock` method\n2. Design a single test case following AAA (Arrange-Act-Assert) pattern\n3. If the test file does not exist, create it with the proper package, imports, class declaration, and @ExtendWith(MockitoExtension.class)\n4. If the test file already exists, append the new test method to the existing class\n5. Run the test: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=SimpleRedisLockTest#shouldTryLockSuccessfully\n6. Return the result as JSON\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior (do NOT write multiple test methods)\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"pass|fail\",\n  \"class_name\": \"SimpleRedisLock\",\n  \"method_name\": \"tryLock\",\n  \"test_method\": \"shouldTryLockSuccessfully\",\n  \"test_file\": \"src/test/java/com/hmdp/utils/SimpleRedisLockTest.java\",\n  \"error\": \"error message if failed, null if passed\",\n  \"duration_ms\": 0\n}\n```\n"
+      "prompt": "You are a Java UT test-writing specialist. Your job is to write tests for ONE class until coverage targets are met or all branches are exhausted.\n\n## Target Class\n- Class: com.hmdp.interceptor.RefreshTokenInterceptor (interceptor)\n- Source file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/main/java/com/hmdp/interceptor/RefreshTokenInterceptor.java\n- Test file: /home/twinkle/app/808/Agent_UT_deepseek/dianping/src/test/java/com/hmdp/interceptor/RefreshTokenInterceptorTest.java\n- Complexity: medium\n- Coverage targets: Line >= 70%, Branch >= 60%\n\n\n## Method Inventory\n| # | Method | Signature | Complexity | Status | Suggested Test |\n|---|--------|-----------|------------|--------|----------------|\n| 1 | preHandle | public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) | medium | pending | shouldPreHandleSuccessfully |\n| 2 | afterCompletion | public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) | simple | pending | shouldAfterCompletionSuccessfully |\n\nMethods marked \"pass\" already have working tests — do NOT duplicate them.\nMethods marked \"pending\" need tests.\nMethods marked \"fail\" need fixed tests.\n\n## Coverage Iteration Loop (CRITICAL)\n\nYou MUST iterate until one of these STOP conditions is met:\n  **STOP-A**: RefreshTokenInterceptor line_coverage >= 70% AND branch_coverage >= 60%\n  **STOP-B**: No uncovered branches remain for ANY pending/failed method\n  **STOP-C**: You have completed 10 iterations\n\n### Initial Setup (Iteration 0)\n1. Read the source file to understand ALL methods, their branches, and dependencies\n2. Read the existing test file (if any) to see existing tests\n3. Run baseline: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=RefreshTokenInterceptorTest\n4. Run coverage: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n5. Parse `target/site/jacoco/jacoco.csv` — find row for `RefreshTokenInterceptor`, note baseline line_coverage and branch_coverage\n\n### Each Iteration\n1. Identify uncovered branches from the LATEST jacoco.csv metrics\n2. Pick the highest-priority uncovered branch and write ONE test for it\n3. Run: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn test -Dtest=RefreshTokenInterceptorTest#testMethod\n4. If test FAILS: fix the test and re-run (same iteration — don't advance)\n5. After test passes: cd /home/twinkle/app/808/Agent_UT_deepseek/dianping && /home/twinkle/app/maven/bin/mvn jacoco:report\n6. Parse `target/site/jacoco/jacoco.csv` for row `RefreshTokenInterceptor`:\n   - line_coverage = LINE_COVERED / (LINE_MISSED + LINE_COVERED)\n   - branch_coverage = BRANCH_COVERED / (BRANCH_MISSED + BRANCH_COVERED)\n   - If BRANCH_MISSED + BRANCH_COVERED == 0, branch_coverage = 0\n7. Check STOP conditions — if none met, increment iteration and continue\n\n### Branch Prioritization\n1. Complex methods first (most uncovered branches)\n2. Medium methods next\n3. Simple methods last\n4. Within a method: error/null paths first, then happy paths\n\n### Constraints\n- Max 10 iterations total\n- Write at most 2 tests per iteration\n- Do NOT modify source code — only add/modify test file\n- If the test file does not exist, create it with proper structure\n- If the test file exists, append new @Test methods\n- After EACH test pass, run jacoco:report and parse coverage\n\n## Mock Strategy for This Class Type\n\n**Interceptor class** - Test preHandle/postHandle:\n- Create interceptor with `new` (pass mocked dependencies to constructor)\n- Use `MockHttpServletRequest` and `MockHttpServletResponse` from spring-test\n- Set headers with `request.addHeader(\"authorization\", \"token\")`\n- ThreadLocal cleanup in `@AfterEach`: `UserHolder.removeUser()`\n- Test both branches: token present/absent, user exists/not-exists\n\n## Class Coverage Strategy\n2 pending methods with moderate branching.\nWrite tests method-by-method, checking coverage after each pass.\nPrioritize methods with the most branching.\n\n## Test Writing Rules\nRefer to: /home/twinkle/app/808/Agent_UT_deepseek/Rule/Java_UT_Testing_Rules.md and /home/twinkle/app/808/Agent_UT_deepseek/prompts/SUBAGENT_UT_PROMPT.md\n\nKey rules:\n- JUnit 5 + Mockito (@ExtendWith(MockitoExtension.class))\n- Add @MockitoSettings(strictness = Strictness.LENIENT) to class level\n- Method naming: should[Expected]When[Condition]\n- AAA pattern: // Arrange, // Act, // Assert\n- Mock ALL external dependencies (Redis, MyBatis, Database, MQ) with @Mock\n- Use @InjectMocks for the class under test\n- One test = one behavior = one branch\n- For MyBatis-Plus: chain calls delegate to baseMapper — mock the baseMapper\n- For Redis: mock StringRedisTemplate + each ops type\n- For ThreadLocal: set directly + cleanup in @AfterEach\n\n## Return Format\nYou MUST end your response with exactly this JSON block:\n```json\n{\n  \"status\": \"class_complete|class_partial|fail\",\n  \"class_name\": \"RefreshTokenInterceptor\",\n  \"class_coverage\": {\n    \"line_coverage\": 0.0,\n    \"branch_coverage\": 0.0\n  },\n  \"stop_reason\": \"targets_met|branches_exhausted|max_iterations|compilation_error\",\n  \"test_results\": [\n    {\n      \"status\": \"pass\",\n      \"method_name\": \"methodName\",\n      \"test_method\": \"shouldXxxWhenYyy\",\n      \"branches_covered\": [\"branch description\"],\n      \"duration_ms\": 0\n    }\n  ],\n  \"iterations\": 0,\n  \"uncovered_branches\": [],\n  \"error\": null,\n  \"total_duration_ms\": 0\n}\n```\n- `status`: \"class_complete\" (targets met), \"class_partial\" (progress made but not met), \"fail\" (fatal error)\n- `stop_reason`: why the loop stopped\n- `test_results`: ALL tests written in this dispatch (can be empty if fail)\n- `uncovered_branches`: remaining uncovered branch descriptions (for class_partial)\n- `error`: set only if status=fail\n"
     }
   ]
 }
