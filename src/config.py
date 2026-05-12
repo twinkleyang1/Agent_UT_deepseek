@@ -6,7 +6,10 @@ import os
 
 @dataclass
 class ProjectConfig:
-    """Configuration for a single Java project under test."""
+    """Configuration for a single Java project under test.
+
+    When `name` is empty, it falls back to `id`.
+    """
     id: str
     path: str
     maven_bin: str

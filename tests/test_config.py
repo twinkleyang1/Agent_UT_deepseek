@@ -17,6 +17,7 @@ def test_project_config_defaults():
     assert config.maven_bin == "/usr/bin/mvn"
     assert config.maven_settings == ""
     assert config.coverage_targets == {"line": 0.70, "branch": 0.60}
+    assert config.name == "test-proj"
     assert config.batch_size == 5
 
 
@@ -36,10 +37,12 @@ def test_project_config_full():
     assert config.batch_size == 8
 
 
-def test_project_config_shared_dir():
+def test_project_config_paths():
     config = ProjectConfig(
         id="test",
         path="/data/projects/test",
         maven_bin="/usr/bin/mvn",
     )
     assert config.shared_dir == "/data/projects/test/shared"
+    assert config.src_main_java == "/data/projects/test/src/main/java"
+    assert config.src_test_java == "/data/projects/test/src/test/java"
