@@ -120,7 +120,7 @@ Methods marked "fail" need fixed tests.
 ## Coverage Iteration Loop (CRITICAL)
 
 You MUST iterate until one of these STOP conditions is met:
-  **STOP-A**: {class_name} line_coverage >= 70% AND branch_coverage >= 60%
+  **STOP-A**: {class_name} line_coverage >= {int(self.COVERAGE_TARGET_LINE*100)}% AND branch_coverage >= {int(self.COVERAGE_TARGET_BRANCH*100)}%
   **STOP-B**: No uncovered branches remain for ANY pending/failed method
   **STOP-C**: You have completed {self.MAX_ITERATIONS} iterations
 
