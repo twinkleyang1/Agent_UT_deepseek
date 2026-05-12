@@ -37,6 +37,7 @@ import sys
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
 
+from src.config import ProjectConfig
 from src.orchestrator import Orchestrator
 
 
@@ -212,6 +213,16 @@ def main():
         default="dianping",
         help="Java project sub-directory name",
     )
+    parser.add_argument(
+        "--config",
+        default=None,
+        help="Path to a Java project directory (enables ProjectConfig mode)",
+    )
+    parser.add_argument(
+        "--maven-bin",
+        default=None,
+        help="Custom Maven binary path (used with --config)",
+    )
 
     subparsers = parser.add_subparsers(dest="command", help="Command")
 
@@ -248,9 +259,18 @@ def main():
 
     args = parser.parse_args()
 
+    config = None
+    if args.config:
+        config = ProjectConfig(
+            id=os.path.basename(args.config.rstrip('/')),
+            path=os.path.abspath(args.config),
+            maven_bin=args.maven_bin or "/home/twinkle/app/maven/bin/mvn",
+        )
+
     orchestrator = Orchestrator(
         project_root=args.project_root,
-        java_project=args.java_project,
+        java_project=args.java_project or "dianping",
+        config=config,
     )
 
     if args.command == "init":
