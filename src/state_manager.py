@@ -28,7 +28,7 @@ class StateManager:
     COVERAGE_REPORT = "coverage_report.json"
     COVERAGE_HISTORY = "coverage_history.json"
 
-    def __init__(self, project_root: str, config: "ProjectConfig" = None):
+    def __init__(self, project_root: str, config: Optional["ProjectConfig"] = None):
         self.project_root = project_root
         if config:
             self.shared_dir = config.shared_dir
