@@ -8,7 +8,10 @@ or all branches are exhausted.
 
 import json
 import os
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
+
+if TYPE_CHECKING:
+    from src.config import ProjectConfig
 
 
 class SubagentDispatch:
@@ -22,9 +25,18 @@ class SubagentDispatch:
     COVERAGE_TARGET_LINE = 0.70
     COVERAGE_TARGET_BRANCH = 0.60
 
-    def __init__(self, project_root: str, java_project: str):
+    def __init__(self, project_root: str, java_project: str = None,
+                 config: Optional["ProjectConfig"] = None):
         self.project_root = project_root
-        self.java_project = java_project
+        if config:
+            self.java_project_path = config.path
+            self.MAVEN_BIN = config.maven_bin
+            self.COVERAGE_TARGET_LINE = config.coverage_targets.get("line", 0.70)
+            self.COVERAGE_TARGET_BRANCH = config.coverage_targets.get("branch", 0.60)
+        else:
+            self.java_project = java_project or "dianping"
+            self.MAVEN_BIN = "/home/twinkle/app/maven/bin/mvn"
+            self.java_project_path = None
         self.retry_count: Dict[str, int] = {}
 
     # ==================== Retry Tracking (per-class) ====================
@@ -61,7 +73,10 @@ class SubagentDispatch:
         attempt = task.get("attempt", 1)
         class_methods = task.get("class_methods", [])
 
-        java_project_path = os.path.join(self.project_root, self.java_project)
+        if self.java_project_path:
+            java_project_path = self.java_project_path
+        else:
+            java_project_path = os.path.join(self.project_root, self.java_project)
         rules_path = os.path.join(self.project_root, self.RULES_DIR,
                                   "Java_UT_Testing_Rules.md")
         prompt_template_path = os.path.join(self.project_root,

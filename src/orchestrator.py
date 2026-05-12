@@ -52,7 +52,7 @@ class Orchestrator:
             self.java_project_path = config.path
             self.MAVEN_BIN = config.maven_bin
             self.state = StateManager(project_root, config=config)
-            self.dispatcher = SubagentDispatch(project_root, java_project)
+            self.dispatcher = SubagentDispatch(project_root, java_project, config=config)
         else:
             self.java_project_path = os.path.join(project_root, java_project)
             self.state = StateManager(project_root)
