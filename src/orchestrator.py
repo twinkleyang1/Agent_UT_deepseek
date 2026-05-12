@@ -47,13 +47,13 @@ class Orchestrator:
     def __init__(self, project_root: str, java_project: str = "dianping",
                  config: Optional["ProjectConfig"] = None):
         self.project_root = project_root
-        if config:
+        self.java_project = java_project
+        if config is not None:
             self.java_project_path = config.path
             self.MAVEN_BIN = config.maven_bin
             self.state = StateManager(project_root, config=config)
             self.dispatcher = SubagentDispatch(project_root, java_project)
         else:
-            self.java_project = java_project
             self.java_project_path = os.path.join(project_root, java_project)
             self.state = StateManager(project_root)
             self.dispatcher = SubagentDispatch(project_root, java_project)
