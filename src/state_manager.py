@@ -12,7 +12,10 @@ import json
 import os
 import re
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.config import ProjectConfig
 
 
 class StateManager:
@@ -25,9 +28,12 @@ class StateManager:
     COVERAGE_REPORT = "coverage_report.json"
     COVERAGE_HISTORY = "coverage_history.json"
 
-    def __init__(self, project_root: str):
+    def __init__(self, project_root: str, config: "ProjectConfig" = None):
         self.project_root = project_root
-        self.shared_dir = os.path.join(project_root, self.SHARED_DIR)
+        if config:
+            self.shared_dir = config.shared_dir
+        else:
+            self.shared_dir = os.path.join(project_root, self.SHARED_DIR)
         os.makedirs(self.shared_dir, exist_ok=True)
 
     def _path(self, filename: str) -> str:
