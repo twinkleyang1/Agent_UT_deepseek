@@ -9,6 +9,9 @@ sys.path.insert(0, PROJECT_ROOT)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from dashboard.backend.api.projects import router as projects_router
+from dashboard.backend.api.state import router as state_router
+
 app = FastAPI(title="UT Orchestrator Dashboard", version="1.0.0")
 
 app.add_middleware(
@@ -18,6 +21,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(projects_router)
+app.include_router(state_router)
 
 
 @app.get("/api/health")
